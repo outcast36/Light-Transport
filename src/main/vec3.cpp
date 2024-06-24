@@ -53,3 +53,42 @@ double vec3::length() const {
 double vec3::length_squared() const {
     return v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
 }
+
+
+vec3 operator*(double t, const vec3& v) {
+    return vec3(t*v.x(), t*v.y(), t*v.z());
+}
+
+vec3 operator*(const vec3& v, double t) {
+    return t * v;
+}
+
+vec3 operator*(const vec3& v, const vec3& w) {
+    return vec3(v.x()*w.x(), v.y()*w.y(), v.z()*w.z());
+}
+
+vec3 operator+(const vec3& v, const vec3& w) {
+    return vec3(v.x()+w.x(), v.y()+w.y(), v.z()+w.z());
+}
+
+vec3 operator-(const vec3& v, const vec3& w) {
+    return vec3(v.x()-w.x(), v.y()-w.y(), v.z()-w.z());
+}
+
+vec3 operator/(const vec3& v, double t) {
+    return (1/t) * v;
+}
+
+// Algebraic definition of cross product: v X w = (v2w3 + v3w2)i + (v3w1 - v1w3)j + (v1w2 - v2w1)k
+vec3 cross(const vec3& v, const vec3& w) {
+    return vec3(v.y()*w.z()+v.z()*w.y(), v.z()*w.x()-v.x()*w.z(), v.x()*w.y()-v.y()*w.x());
+}
+
+vec3 unit_vector(const vec3& v) {
+    return v / v.length();
+}
+
+double dot(const vec3& v, const vec3& w) {
+    return v.x()*w.x() + v.y()*w.y() + v.z()*w.z();
+}
+
