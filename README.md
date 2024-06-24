@@ -1,5 +1,5 @@
-# Ray Tracing 2.0
-Only named this way because I already have a public raytracer repo (written in Julia). This project has a few goals:
+# Light Transport Thingamabob
+This project has a few goals:
 * Implement raytracing and a family of rendering algorithms using C++
 * Implement expansion style rendering techniques such as Monte Carlo Path Tracing (both bidirectional and unidirectional), Metropolis Light Transport, Photon Mapping
 * Support multiple shading models like Blinn-Phong, Cook-Torrance, and other microfacet models
