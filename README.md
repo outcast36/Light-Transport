@@ -6,5 +6,6 @@ Only named this way because I already have a public raytracer repo (written in J
 * Render images with complex lighting interactions like indirect illumination, dispersion, sub-surface scattering
 * Implement an acceleration structure, such as a Bounding Voume Hierarchy or a Binary Space Partitioning Tree to make the ray-scene intersection loop run in sub-linear time
 * Support both RGB and spectral rendering
+* Implement noice reduction methods like next event estimation
 
 This is a work in progress project, maybe this will be updated in the future
