@@ -1,3 +1,9 @@
+#ifndef FILEHANDLE_H
+#define FILEHANDLE_H
+
+#include <cstddef>
+#include <cstdio>
+
 class FileHandle {
     public:
         FileHandle(const char * file_name, const char * mode);
@@ -14,3 +20,5 @@ class FileHandle {
     private: 
         FILE *f;
 };
+
+#endif /* FILEHANDLE_H */
