@@ -16,7 +16,7 @@ class FileHandle {
         
         size_t readFile(char* buffer, size_t size, size_t count);
         size_t readLine(char* buffer);
-        void writeFile(const char* buffer, size_t size, size_t count);
+        size_t writeFile(const char* buffer, size_t size, size_t count);
         bool is_eof();
     private: 
         FILE *f;
