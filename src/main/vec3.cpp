@@ -27,14 +27,14 @@ vec3& vec3::operator+=(const vec3& w) {
     return *this;
 }
 
-vec3& vec3::operator*=(double t){
+vec3& vec3::operator*=(double t) {
     v[0] *= t;
     v[1] *= t;
     v[2] *= t;
     return *this;
 }
 
-vec3& vec3::operator/=(double t){
+vec3& vec3::operator/=(double t) {
     return *this *= (1/t);
 }
 

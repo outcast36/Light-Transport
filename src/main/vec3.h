@@ -18,7 +18,7 @@ class vec3{
         vec3& operator*=(double t);
         vec3& operator/=(double t);
 
-        double operator[](int i) const; // mostly called internally for some operations when we have a const vector e.g. in += 
+        double operator[](int i) const; // called internally for some operations with const vector e.g. in += 
         double& operator[](int i); // modifies vector, used for operations *= and /=
 
         double length() const;
