@@ -1,7 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-template <typename T> class vec3{
+template <typename T> class vec3 {
     public:
         //Constructors
         vec3();
@@ -22,7 +22,7 @@ template <typename T> class vec3{
         T& operator[](int i); // modifies vector, used for operations *= and /=
 
         T length() const;
-        T length_squared() const;
+        T lengthSquared() const;
         
     private:
         T v[3];
@@ -39,5 +39,6 @@ template <typename T> vec3<T> operator/(const vec3<T>& v, T t);
 
 template <typename T> vec3<T> cross(const vec3<T>& v, const vec3<T>& w);
 template <typename T> T dot(const vec3<T>& v, const vec3<T>& w);
+template <typename T> vec3<T> unitVector(const vec3<T>& v);
 
 #endif /*VEC3_H */
