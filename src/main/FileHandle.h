@@ -14,9 +14,9 @@ class FileHandle {
         FileHandle(const FileHandle &) = delete; //copy constructor
         FileHandle& operator=(const FileHandle &) = delete; //assignment operator
         
-        size_t readFile(void* buffer, size_t size, size_t count);
-        size_t readLine(char* buffer);
-        size_t writeFile(const void* buffer, size_t size, size_t count);
+        int32_t readFile(void* buffer, size_t size, size_t count);
+        int32_t readLine(char* buffer);
+        int32_t writeFile(const void* buffer, size_t size, size_t count);
         bool is_eof();
     private: 
         FILE *f;
