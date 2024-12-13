@@ -1,43 +1,43 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-class vec3{
+template <typename T> class vec3{
     public:
         //Constructors
         vec3();
-        vec3(double c1, double c2, double c3);
+        vec3(T c1, T c2, T c3);
 
         //Access elements
-        double x() const;
-        double y() const;
-        double z() const;
+        T x() const;
+        T y() const;
+        T z() const;
 
         //Vector Operations
         vec3 operator-() const; // returns a new vector
         vec3& operator+=(const vec3& w);
-        vec3& operator*=(double t);
-        vec3& operator/=(double t);
+        vec3& operator*=(T t);
+        vec3& operator/=(T t);
 
-        double operator[](int i) const; // called internally for some operations with const vector e.g. in += 
-        double& operator[](int i); // modifies vector, used for operations *= and /=
+        T operator[](int i) const; // called internally for some operations with const vector e.g. in += 
+        T& operator[](int i); // modifies vector, used for operations *= and /=
 
-        double length() const;
-        double length_squared() const;
+        T length() const;
+        T length_squared() const;
         
     private:
-        double v[3];
+        T v[3];
 };
 
 //Commutative multiplication by scalar
-vec3 operator*(const vec3& v, double t);
-vec3 operator*(double t, const vec3& v);
+template <typename T> vec3<T> operator*(const vec3<T>& v, T t);
+template <typename T> vec3<T> operator*(T t, const vec3<T>& v);
 
-vec3 operator*(const vec3& v, const vec3& w); //channelwise multiplication
-vec3 operator+(const vec3& v, const vec3& w);
-vec3 operator-(const vec3& v, const vec3& w);
-vec3 operator/(const vec3& v, double t);
+template <typename T> vec3<T> operator*(const vec3<T>& v, const vec3<T>& w); //channelwise multiplication
+template <typename T> vec3<T> operator+(const vec3<T>& v, const vec3<T>& w);
+template <typename T> vec3<T> operator-(const vec3<T>& v, const vec3<T>& w);
+template <typename T> vec3<T> operator/(const vec3<T>& v, T t);
 
-vec3 cross(const vec3& v, const vec3& w);
-double dot(const vec3& v, const vec3& w);
+template <typename T> vec3<T> cross(const vec3<T>& v, const vec3<T>& w);
+template <typename T> T dot(const vec3<T>& v, const vec3<T>& w);
 
 #endif /*VEC3_H */
