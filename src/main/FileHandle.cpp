@@ -13,7 +13,7 @@ FileHandle::~FileHandle() {
 }
 
 // Read an arbitrary number of objects which contain can arbitrary amount of bytes
-size_t FileHandle::readFile(char* buffer, size_t size, size_t count) {
+size_t FileHandle::readFile(void* buffer, size_t size, size_t count) {
     size_t read_count = fread(buffer, size, count, f); // read given size parameter bytes
 
     // ferror returns a nonzero value if the given file stream has any errors
@@ -22,7 +22,7 @@ size_t FileHandle::readFile(char* buffer, size_t size, size_t count) {
         throw new std::runtime_error("Failed to read from file.");
     } 
 
-    // In the EOF case, return number of bytes to callervoid
+    // In the EOF case, return number of bytes to caller
     return read_count;
 }
 
@@ -36,7 +36,7 @@ size_t FileHandle::readLine(char* buffer) {
 }
 
 // Write arbitrary amount of objects which contain an arbitrary amount of bytes
-size_t FileHandle::writeFile(const char* buffer, size_t size, size_t count) {
+size_t FileHandle::writeFile(const void* buffer, size_t size, size_t count) {
     size_t write_count = fwrite(buffer, size, count, f);
     if (write_count != count && ferror(f)) {
         throw new std::runtime_error("Failed to write to file");
