@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <string.h>
 #include "FileHandle.h"
 
 // Acquire file on construction
@@ -13,29 +14,32 @@ FileHandle::~FileHandle() {
 }
 
 // Read an arbitrary number of objects which contain can arbitrary amount of bytes
-size_t FileHandle::readFile(void* buffer, size_t size, size_t count) {
+int32_t FileHandle::readFile(void* buffer, size_t size, size_t count) {
     size_t read_count = fread(buffer, size, count, f); // read given size parameter bytes
-
     // ferror returns a nonzero value if the given file stream has any errors
     // fread returns count of objects read successfully
-    if ((read_count != count) && ferror(f)) return -1;
-
+    if ((read_count != count) && ferror(f)) {
+        std::perror("Failed to read from file");
+        return -1;
+    } 
     // In the EOF case, return number of bytes to caller
     return read_count;
 }
 
 // Read a line delimited by newline from the file
-size_t FileHandle::readLine(char* buffer) {
-    size_t buffer_size=129, line_size;
+int32_t FileHandle::readLine(char* buffer) {
+    size_t buffer_size=129;
+    int32_t n;
     if (fgets(buffer, buffer_size, f)==NULL) {
         std::perror("Failed to read line from file");
         return -1;
     }
-    return line_size;
+    n = strlen(buffer);
+    return n;
 }
 
 // Write arbitrary amount of objects which contain an arbitrary amount of bytes
-size_t FileHandle::writeFile(const void* buffer, size_t size, size_t count) {
+int32_t FileHandle::writeFile(const void* buffer, size_t size, size_t count) {
     size_t write_count = fwrite(buffer, size, count, f);
     if (write_count != count && ferror(f)) {
         std::perror("Failed to write to file");
