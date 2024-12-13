@@ -19,32 +19,45 @@ struct PFMImage {
 
 using PFMImage = struct PFMImage;
 
-PFMImage* readPFM(PFMImage* img,  std::string infile) {
+int32_t readPFMHeader(FileHandle& fh, PFMImage* img) {
     char buf[128]={0}; // char buffer for header 
-    float pixel[3]; // RGB channel value buffer
     uint32_t width=0, height=0;
     float pixel_max=-1.0F;
     bool color=false; 
     const char* delim=" ";
 
-    FileHandle fh = FileHandle(infile.c_str(), "r");
     // Line 1: One of "PF" (tri-channel color) or "Pf" (monochrome single-channel) 
     int32_t n = fh.readLine(&buf[0]);
-    if (n<0) return NULL;
+    if (n<0) return -1;
     color = (buf[1]=='F'); 
     // Line 2: [xres] [yres]
     n = fh.readLine(&buf[0]);
-    if (n<0) return NULL;
+    if (n<0) return -1;
     char* tok  = strtok(&buf[0], delim); 
     width = std::stoi(tok);
     tok = strtok(NULL, delim);
     height = std::stoi(tok);
     // Line 3: scale factor and endianess
     n = fh.readLine(&buf[0]);
-    if (n<0) return NULL;
+    if (n<0) return -1;
     pixel_max = std::stof(buf);
-    std::cout << "Color: " << color << " Width: " << width << " Height: ";
-    std::cout << height << " Max Pixel Value: " << pixel_max << '\n';
+    img->img_width = width;
+    img->img_height = height;
+    img->pixel_max = std::abs(pixel_max);
+    img->RGB = color;
+    return 0;
+}
+
+PFMImage* readPFM(PFMImage* img,  std::string infile) {
+    uint32_t width, height;
+    int32_t n;
+    float pixel[3]; // RGB channel value buffer
+    FileHandle fh = FileHandle(infile.c_str(), "r");
+    n=readPFMHeader(fh,img);
+    if(n<0) return NULL;
+    width = img->img_width; height = img->img_height;
+    std::cout << "Color: " << img->RGB << " Width: " << width << " Height: ";
+    std::cout << height << " Max Pixel Value: " << img->pixel_max << '\n';
     pixelMap pixels(width, std::vector<vec3<float>>(height));
     for (uint32_t i=0;i<width;i++) { // numbered 0 to width from left to right
         for (uint32_t j=0;j<height;j++) { // numbered 0 to height from bottom to top
@@ -53,10 +66,6 @@ PFMImage* readPFM(PFMImage* img,  std::string infile) {
             pixels[i][j]=vec3<float>(pixel[0], pixel[1], pixel[2]);
         }
     }
-    img->img_width = width;
-    img->img_height = height;
-    img->pixel_max = std::abs(pixel_max);
-    img->RGB = color;
     img->img_array = &pixels;
     return img; // destructor of FileHandle instance invoked on return 
 }
