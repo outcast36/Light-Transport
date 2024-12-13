@@ -1,6 +1,7 @@
 #include <cmath>
 #include "vec3.h"
 
+template class vec3<float>;
 template <typename T> vec3<T>::vec3() : v{0,0,0} {};
 template <typename T> vec3<T>::vec3(T x, T y, T z) : v{x,y,z} {};
 
@@ -47,10 +48,10 @@ template <typename T> T& vec3<T>::operator[](int i) {
 }
 
 template <typename T> T vec3<T>::length() const {
-    return sqrt(length_squared());
+    return sqrt(lengthSquared());
 }
 
-template <typename T> T vec3<T>::length_squared() const {
+template <typename T> T vec3<T>::lengthSquared() const {
     return v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
 }
 
@@ -84,11 +85,10 @@ template <typename T> vec3<T> cross(const vec3<T>& v, const vec3<T>& w) {
     return vec3<T>(v.y()*w.z()+v.z()*w.y(), v.z()*w.x()-v.x()*w.z(), v.x()*w.y()-v.y()*w.x());
 }
 
-template <typename T> vec3<T> unit_vector(const vec3<T>& v) {
-    return v / v.length();
-}
-
 template <typename T> T dot(const vec3<T>& v, const vec3<T>& w) {
     return v.x()*w.x() + v.y()*w.y() + v.z()*w.z();
 }
 
+template <typename T> vec3<T> unitVector(const vec3<T>& v) {
+    return v / v.length();
+}
