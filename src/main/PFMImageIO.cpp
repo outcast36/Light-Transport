@@ -111,7 +111,6 @@ int32_t writePFM(PFMImage* img,  std::string outfile) {
     if(n<0) return -1;
     for (uint32_t i=0;i<height;i++) { // numbered 0 to height from bottom to top
         for (uint32_t j=0;j<width;j++) { // numbered 0 to width from left to right
-            //std::cout << pixels[i][j][0] << ' ' << pixels[i][j][1] << ' ' << pixels[i][j][2] << '\n';
             n=fh.writeFile(&pixels[i][j], 3*sizeof(float), 1);
             if (n<0) return -1;
         }
