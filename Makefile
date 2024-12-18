@@ -3,3 +3,4 @@ make:
 
 clean:
 	rm -f render
+	rm -f write_test.pfm
