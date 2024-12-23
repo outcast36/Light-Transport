@@ -12,4 +12,4 @@ This project has a few goals:
 This is a work in progress project, maybe this will be updated in the future
 
 Compile reference materials to nice looking PDFs using pandoc:
-```pandoc [refernce.md] -o [reference.pdf]```
+```pandoc [reference.md] -o [reference.pdf]```
