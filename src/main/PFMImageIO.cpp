@@ -14,7 +14,7 @@ dimensions of the image, whether or not the image is rgb, the endianess of the d
 and the maximum floating point value used to represent full saturation of R, G, or B. 
 Also assume that fh is a valid FileHandle and can be written to. 
 */
-int32_t writePFMHeader(FileHandle& fh, PFMImage* img) {
+int32_t PFMImage::writePFMHeader(FileHandle& fh, PFMImage* img) {
     const uint8_t buf_size = 128;
     char buf[buf_size]={0}; // char buffer for header 
     int32_t n, digits_w, digits_h;
@@ -51,7 +51,7 @@ dimensions of the image, whether or not the image is rgb, the endianess of the d
 and the maximum floating point value used to represent full saturation of R, G, or B. 
 Also assume that fh is a valid FileHandle and can be read from. 
 */
-int32_t readPFMHeader(FileHandle& fh, PFMImage* img) {
+int32_t PFMImage::readPFMHeader(FileHandle& fh, PFMImage* img) {
     char buf[128]={0}; // char buffer for header 
     uint32_t width=0, height=0;
     float pixel_max=-1.0F;
@@ -81,7 +81,7 @@ int32_t readPFMHeader(FileHandle& fh, PFMImage* img) {
 
 // Read a PFM image in its entirety from the given path: infile.pfm
 // Data is output into the pointer img
-int32_t readPFM(PFMImage* img,  std::string infile) {
+int32_t PFMImage::readPFM(PFMImage* img,  std::string infile) {
     uint32_t width, height;
     int32_t n;
     float pixel[3]; // RGB channel value buffer
@@ -102,7 +102,7 @@ int32_t readPFM(PFMImage* img,  std::string infile) {
 }
 
 // Write all of the PFM image data from the pointer img into the file: outfile.pfm
-int32_t writePFM(PFMImage* img,  std::string outfile) {
+int32_t PFMImage::writePFM(PFMImage* img,  std::string outfile) {
     uint32_t width=img->img_width, height=img->img_height;
     int32_t n;
     FileHandle fh = FileHandle(outfile.c_str(), "w");
