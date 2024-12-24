@@ -1,0 +1,8 @@
+# Compiled reference documentation
+reference_docs/*.pdf
+
+# VSCode environment
+src/main/.vscode
+
+# Images used for testing
+imgs/
