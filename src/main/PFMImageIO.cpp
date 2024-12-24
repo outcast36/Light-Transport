@@ -5,8 +5,6 @@
 #include <string.h>
 #include "PFMImageIO.h"
 
-// Consider making this a class so read/write image header functions can be private?
-
 /* 
 This function exists as a helper function, to be called only within writePFM().
 Assuming well-formed data, img has a bunch of floating point data, the 
@@ -14,7 +12,7 @@ dimensions of the image, whether or not the image is rgb, the endianess of the d
 and the maximum floating point value used to represent full saturation of R, G, or B. 
 Also assume that fh is a valid FileHandle and can be written to. 
 */
-int32_t PFMImage::writePFMHeader(FileHandle& fh, PFMImage* img) {
+int32_t PFMImage::writePFMHeader(FileHandle& fh) {
     const uint8_t buf_size = 128;
     char buf[buf_size]={0}; // char buffer for header 
     int32_t n, digits_w, digits_h;
@@ -51,7 +49,7 @@ dimensions of the image, whether or not the image is rgb, the endianess of the d
 and the maximum floating point value used to represent full saturation of R, G, or B. 
 Also assume that fh is a valid FileHandle and can be read from. 
 */
-int32_t PFMImage::readPFMHeader(FileHandle& fh, PFMImage* img) {
+int32_t PFMImage::readPFMHeader(FileHandle& fh) {
     char buf[128]={0}; // char buffer for header 
     uint32_t width=0, height=0;
     float pixel_max=-1.0F;
