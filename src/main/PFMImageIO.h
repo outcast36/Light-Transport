@@ -16,13 +16,13 @@ class PFMImage {
         uint32_t img_height;
         float pixel_max;
         bool RGB; // true if image is tri-channel
+        int32_t readPFMHeader(FileHandle& fh, PFMImage* img);
+        int32_t writePFMHeader(FileHandle& fh, PFMImage* img);
     public:
         PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB);
+        int32_t readPFM(PFMImage* img,  std::string infile);    
+        int32_t writePFM(PFMImage* img,  std::string outfile);
+        void writePixel(uint32_t i, uint32_t j);
 };
-
-int32_t readPFMHeader(FileHandle& fh, PFMImage* img);
-int32_t readPFM(PFMImage* img,  std::string infile);
-int32_t writePFMHeader(FileHandle& fh, PFMImage* img);
-int32_t writePFM(PFMImage* img,  std::string outfile);
 
 #endif /* PFMIMAGEIO_H */
