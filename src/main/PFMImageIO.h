@@ -9,15 +9,16 @@
 using rgb32 = vec3<float>;
 using pixelMap = std::vector<std::vector<rgb32>>;
 
-struct PFMImage {
-    std::unique_ptr<pixelMap> img_array; // <- woag free memory management
-    uint32_t img_width;
-    uint32_t img_height;
-    float pixel_max;
-    bool RGB; // true if image is tri-channel
+class PFMImage {
+    private:
+        std::unique_ptr<pixelMap> img_array; // <- woag free memory management
+        uint32_t img_width;
+        uint32_t img_height;
+        float pixel_max;
+        bool RGB; // true if image is tri-channel
+    public:
+        PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB);
 };
-
-using PFMImage = struct PFMImage;
 
 int32_t readPFMHeader(FileHandle& fh, PFMImage* img);
 int32_t readPFM(PFMImage* img,  std::string infile);
