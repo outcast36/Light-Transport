@@ -100,12 +100,12 @@ int32_t PFMImage::readPFM(std::string infile) {
 }
 
 // Write all of the PFM image data from the pointer img into the file: outfile.pfm
-int32_t PFMImage::writePFM(PFMImage* img,  std::string outfile) {
-    uint32_t width=img->img_width, height=img->img_height;
+int32_t PFMImage::writePFM(std::string outfile) {
+    uint32_t width=this->img_width, height=this->img_height;
     int32_t n;
     FileHandle fh = FileHandle(outfile.c_str(), "w");
-    pixelMap pixels = *(img->img_array.get());
-    n=writePFMHeader(fh,img);
+    pixelMap pixels = *(this->img_array.get());
+    n=writePFMHeader(fh);
     if(n<0) return -1;
     for (uint32_t i=0;i<height;i++) { // numbered 0 to height from bottom to top
         for (uint32_t j=0;j<width;j++) { // numbered 0 to width from left to right
