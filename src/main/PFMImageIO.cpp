@@ -17,25 +17,25 @@ int32_t PFMImage::writePFMHeader(FileHandle& fh) {
     char buf[buf_size]={0}; // char buffer for header 
     int32_t n, digits_w, digits_h;
     // Line 1: One of "PF" (tri-channel color) or "Pf" (monochrome single-channel)
-    if (img->RGB) strcpy(buf, "PF\n");
+    if (this->RGB) strcpy(buf, "PF\n");
     else strcpy(buf,"Pf\n");
     n = fh.writeFile(&buf[0],sizeof(char),strlen(buf));
     if (n<0) return -1;
     // Line 2: [xres] [yres]
     memset(buf,'\0',buf_size);
-    digits_w = snprintf(NULL,0,"%u",img->img_width);
-    snprintf(&buf[0],digits_w+1,"%u",img->img_width);
-    digits_h = snprintf(NULL,0,"%u",img->img_height);
+    digits_w = snprintf(NULL,0,"%u",this->img_width);
+    snprintf(&buf[0],digits_w+1,"%u",this->img_width);
+    digits_h = snprintf(NULL,0,"%u",this->img_height);
     buf[digits_w]=' ';
-    snprintf(&buf[digits_w+1],digits_h+1,"%u",img->img_height);
+    snprintf(&buf[digits_w+1],digits_h+1,"%u",this->img_height);
     n=strlen(buf); buf[n]='\n';
     n = fh.writeFile(&buf[0],sizeof(char),n+1);
     if (n<0) return -1;
     // Line 3: scale factor and endianess
     memset(buf,'\0',buf_size);
     buf[0]='-';
-    digits_w = snprintf(NULL,0,"%f",img->pixel_max);
-    snprintf(&buf[1],digits_w+1,"%f",img->pixel_max);
+    digits_w = snprintf(NULL,0,"%f",this->pixel_max);
+    snprintf(&buf[1],digits_w+1,"%f",this->pixel_max);
     n=strlen(buf); buf[n]='\n';
     n = fh.writeFile(&buf[0],sizeof(char),n+1);
     if (n<0) return -1;
