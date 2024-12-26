@@ -1,5 +1,4 @@
 #include <cmath>
-#include <iostream>
 #include "Cameras.h"
 
 // camera constructor sets image dimensions
