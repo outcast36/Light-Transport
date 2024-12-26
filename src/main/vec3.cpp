@@ -1,7 +1,6 @@
 #include <cmath>
 #include "vec3.h"
 
-template class vec3<float>;
 template <typename T> vec3<T>::vec3() : v{0,0,0} {};
 template <typename T> vec3<T>::vec3(T x, T y, T z) : v{x,y,z} {};
 
@@ -92,3 +91,29 @@ template <typename T> T dot(const vec3<T>& v, const vec3<T>& w) {
 template <typename T> vec3<T> unitVector(const vec3<T>& v) {
     return v / v.length();
 }
+
+
+// Explicit template class instantiations
+template class vec3<double>; 
+template class vec3<float>; 
+
+// Explicit vector function instantiations
+template vec3<float> operator*(const vec3<float>& v, float t);
+template vec3<float> operator*(float t, const vec3<float>& v);
+template vec3<float> operator*(const vec3<float>& v, const vec3<float>& w); //channelwise multiplication
+template vec3<float> operator+(const vec3<float>& v, const vec3<float>& w);
+template vec3<float> operator-(const vec3<float>& v, const vec3<float>& w);
+template vec3<float> operator/(const vec3<float>& v, float t);
+template vec3<float> cross(const vec3<float>& v, const vec3<float>& w);
+template float dot(const vec3<float>& v, const vec3<float>& w);
+template vec3<float> unitVector(const vec3<float>& v);
+
+template vec3<double> operator*(const vec3<double>& v, double t);
+template vec3<double> operator*(double t, const vec3<double>& v);
+template vec3<double> operator*(const vec3<double>& v, const vec3<double>& w); //channelwise multiplication
+template vec3<double> operator+(const vec3<double>& v, const vec3<double>& w);
+template vec3<double> operator-(const vec3<double>& v, const vec3<double>& w);
+template vec3<double> operator/(const vec3<double>& v, double t);
+template vec3<double> cross(const vec3<double>& v, const vec3<double>& w);
+template double dot(const vec3<double>& v, const vec3<double>& w);
+template vec3<double> unitVector(const vec3<double>& v);
