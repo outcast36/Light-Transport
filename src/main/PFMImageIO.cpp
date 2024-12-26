@@ -5,6 +5,17 @@
 #include <string.h>
 #include "PFMImageIO.h"
 
+PFMImage::PFMImage() {};
+
+PFMImage::PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB) : 
+img_width(img_width),
+img_height(img_height),
+pixel_max(pixel_max),
+RGB(RGB) {
+    pixelMap pixels(img_height, std::vector<rgb32>(img_width));
+    this->img_array = std::make_unique<pixelMap>(pixels);
+}
+
 /* 
 This function exists as a helper function, to be called only within writePFM().
 Assuming well-formed data, img has a bunch of floating point data, the 
@@ -83,7 +94,7 @@ int32_t PFMImage::readPFM(std::string infile) {
     uint32_t width, height;
     int32_t n;
     float pixel[3]; // RGB channel value buffer
-    FileHandle fh = FileHandle(infile.c_str(), "r");
+    FileHandle fh(infile.c_str(), "r");
     n=readPFMHeader(fh);
     if(n<0) return -1;
     width = this->img_width; height = this->img_height;
@@ -103,7 +114,7 @@ int32_t PFMImage::readPFM(std::string infile) {
 int32_t PFMImage::writePFM(std::string outfile) {
     uint32_t width=this->img_width, height=this->img_height;
     int32_t n;
-    FileHandle fh = FileHandle(outfile.c_str(), "w");
+    FileHandle fh(outfile.c_str(), "w");
     pixelMap pixels = *(this->img_array.get());
     n=writePFMHeader(fh);
     if(n<0) return -1;
