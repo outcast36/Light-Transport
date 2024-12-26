@@ -11,7 +11,6 @@ using pixelMap = std::vector<std::vector<rgb32>>;
 
 class PFMImage {
     private:
-        std::unique_ptr<pixelMap> img_array; // <- woag free memory management
         uint32_t img_width;
         uint32_t img_height;
         float pixel_max;
@@ -19,11 +18,11 @@ class PFMImage {
         int32_t readPFMHeader(FileHandle& fh);
         int32_t writePFMHeader(FileHandle& fh);
     public:
+        std::unique_ptr<pixelMap> img_array; // <- woag free memory management
         PFMImage(); // empty constructor for testing read/write PFM
         PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB); // when rendering a PFM image
         int32_t readPFM(std::string infile);    
         int32_t writePFM(std::string outfile);
-        void writePixel(uint32_t i, uint32_t j);
 };
 
 #endif /* PFMIMAGEIO_H */
