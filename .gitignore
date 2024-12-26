@@ -6,3 +6,6 @@ src/main/.vscode
 
 # Images used for testing
 imgs/
+
+#Build tools
+Makefile
