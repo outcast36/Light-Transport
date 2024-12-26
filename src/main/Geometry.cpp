@@ -4,13 +4,14 @@
 #include "Geometry.h"
 
 int32_t rayIntersect(Collision* hit, Ray ray, Sphere object) {
+    vec3<double> center_to_origin = ray.origin - object.center;
     double radius_squared = object.radius * object.radius;
     double inverse_radius = 1/object.radius;
     // coefficients from the quadratic equation used to solve for ray parameter t
     double a = ray.direction.lengthSquared();
     double inverse_a = 1/a;
-    double half_b = dot(ray.direction, ray.origin - object.center);
-    double c = (ray.origin - object.center).lengthSquared() - radius_squared;
+    double half_b = dot(ray.direction, center_to_origin);
+    double c = (center_to_origin.lengthSquared()) - radius_squared;
     double discriminant = (half_b * half_b) - (a * c); 
 
     if (discriminant < 0) return -1; // no intersection
