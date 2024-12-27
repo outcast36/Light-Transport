@@ -2,11 +2,12 @@
 #include <cstdint> 
 #include <cmath>
 #include "Geometry.h"
+#include "Shapes.h"
 
-int32_t rayIntersect(Collision* hit, Ray ray, Sphere object) {
-    vec3<double> center_to_origin = ray.origin - object.center;
-    double radius_squared = object.radius * object.radius;
-    double inverse_radius = 1/object.radius;
+int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
+    vec3<double> center_to_origin = ray.origin - this->center;
+    double radius_squared = this->radius * this->radius;
+    double inverse_radius = 1/this->radius;
     // coefficients from the quadratic equation used to solve for ray parameter t
     double a = ray.direction.lengthSquared();
     double inverse_a = 1/a;
@@ -22,7 +23,7 @@ int32_t rayIntersect(Collision* hit, Ray ray, Sphere object) {
     if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
     intersection = ray.origin + (t * ray.direction);
     hit->intersection = intersection;
-    hit->surface_normal = (intersection - object.center) * inverse_radius;
+    hit->surface_normal = (intersection - this->center) * inverse_radius;
     hit->t = t;
     return 0;
 }
