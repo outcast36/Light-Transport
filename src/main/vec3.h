@@ -41,4 +41,4 @@ template <typename T> vec3<T> cross(const vec3<T>& v, const vec3<T>& w);
 template <typename T> T dot(const vec3<T>& v, const vec3<T>& w);
 template <typename T> vec3<T> unitVector(const vec3<T>& v);
 
-#endif /*VEC3_H */
+#endif /* VEC3_H */
