@@ -19,20 +19,7 @@ struct Plane {
     vec3<double> normal;
 };
 
-struct Sphere {
-    vec3<double> center;
-    double radius;
-};
-
 using Collision = struct Collision;
 using Ray = struct Ray;
-using Sphere = struct Sphere;
-
-/* 
-Overload the function rayIntersect depending on type of geometric primitive object.
-Function overload is preferred over a template function in this case since the operations done
-vary significantly between surface types 
-*/
-int32_t rayIntersect(Collision* hit, Ray ray, Sphere object);
 
 #endif /* GEOMETRY_H */
