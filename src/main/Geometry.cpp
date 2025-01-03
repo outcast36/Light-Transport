@@ -27,3 +27,14 @@ int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
     hit->t = t;
     return 0;
 }
+
+int32_t Plane::rayIntersect(Collision* hit, Ray ray) {
+    double denominator = dot(this->normal, ray.direction);
+    if (denominator == 0.0) return -1; // floating point accuracy?
+    denominator = 1/denominator;
+    vec3<double> in_plane = (this->point - ray.origin);
+    double t = dot(this->normal, in_plane) * denominator;
+    hit->intersection = ray.origin + (t * ray.direction);
+    hit->surface_normal = this->normal;
+    return 0;
+}
