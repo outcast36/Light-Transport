@@ -18,4 +18,11 @@ class Sphere : public Shape {
         double radius;
 };
 
+class Plane : public Shape {
+    public:
+        int32_t rayIntersect(Collision* hit, Ray ray);
+        vec3<double> point;
+        vec3<double> normal;
+};
+
 #endif /* SHAPES_H */
