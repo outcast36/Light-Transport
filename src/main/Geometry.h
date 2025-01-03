@@ -14,11 +14,6 @@ struct Ray {
     vec3<double> direction;
 };
 
-struct Plane {
-    vec3<double> point;
-    vec3<double> normal;
-};
-
 using Collision = struct Collision;
 using Ray = struct Ray;
 
