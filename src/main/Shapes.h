@@ -25,4 +25,12 @@ class Plane : public Shape {
         vec3<double> normal;
 };
 
+class Cylinder : public Shape {
+    public: 
+        int32_t rayIntersect(Collision* hit, Ray ray);
+        vec3<double> axis_of_rotation; // normal vector for some cross sectional plane of the cylinder
+        double height;
+        double radius;
+}
+
 #endif /* SHAPES_H */
