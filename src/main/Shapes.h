@@ -29,6 +29,7 @@ class Cylinder : public Shape {
     public: 
         int32_t rayIntersect(Collision* hit, Ray ray);
         vec3<double> axis_of_rotation; // normal vector for some cross sectional plane of the cylinder
+        vec3<double> point_in_center; // point on line forming axis of rotation
         double height;
         double radius;
 };
