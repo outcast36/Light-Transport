@@ -45,7 +45,7 @@ int main(int argc, char *argv[]){
     vec3<double> light(0,-1,-1);
     light = unitVector(light);
     
-    PerspectiveCamera camera(640,480);
+    PerspectiveCamera camera(480,480);
     Collision hit;
     Sphere ball;
     ball.center = c;
@@ -61,12 +61,12 @@ int main(int argc, char *argv[]){
 
     // render_image is owner of unique_ptr<> which holds the array of 
     // floating point data representing the rgb pixel values
-    PFMImage render_image(640, 480, 1.0, true); // 640x480 RGB image
+    PFMImage render_image(480, 480, 1.0, true); // 640x480 RGB image
 
     // hardcoded image dimensions of 640x480 (4:3 aspect)
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     for (uint32_t i=0;i<480;i++) { // numbered 0 to height from bottom to top
-        for (uint32_t j=0;j<640;j++) { // numbered 0 to width from left to right
+        for (uint32_t j=0;j<480;j++) { // numbered 0 to width from left to right
             Ray ray = camera.pixelToRay(i,j);
             hit_status = closestIntersect(scene_objects, &hit, ray);
             if (hit_status<0) color = black;
