@@ -10,13 +10,14 @@
 #include "Geometry.h"
 #include "Cameras.h"
 #include "colors.h"
+#include "Models.h"
 
 // currently without an acceleration structure -- linear search through objects 
-int32_t closestIntersect(std::vector<std::unique_ptr<Shape>>& objects, Collision* closest_hit, Ray ray) {
+int32_t closestIntersect(std::vector<Model>& objects, Collision* closest_hit, Ray ray) {
     Collision cur;
     int32_t res=-1; // return -1 on no intersection
     for (uint32_t i=0;i<objects.size();i++) {
-        if ((*(objects[i].get())).rayIntersect(&cur, ray)==0) {
+        if (objects[i].geometry.rayIntersect(&cur, ray)==0) {
             res=0;
             if (i==0) *closest_hit = cur;
             if (cur.t < closest_hit->t) *closest_hit = cur;
@@ -36,7 +37,7 @@ int main(int argc, char *argv[]){
         exit(EXIT_FAILURE);
     }
 
-    std::vector<std::unique_ptr<Shape>> scene_objects;
+    std::vector<Model> scene_objects;
     
     vec3<double> c(0,0,-5);
     vec3<double> point_in_plane(0,0,0);
@@ -47,17 +48,19 @@ int main(int argc, char *argv[]){
     
     PerspectiveCamera camera(480,480);
     Collision hit;
-    Sphere ball;
-    ball.center = c;
-    ball.radius = 1.0;
+    Sphere ball_geom;
+    ball_geom.center = c;
+    ball_geom.radius = 1.0;
+    Model ball(red, ball_geom);
 
     Plane floor;
     floor.normal = j_hat;
     floor.point = point_in_plane;
+    Model fp(lime, floor);
     
     int32_t hit_status;
-    scene_objects.push_back(std::make_unique<Sphere>(ball));
-    scene_objects.push_back(std::make_unique<Plane>(floor));
+    scene_objects.push_back(ball);
+    scene_objects.push_back(fp);
 
     // render_image is owner of unique_ptr<> which holds the array of 
     // floating point data representing the rgb pixel values
