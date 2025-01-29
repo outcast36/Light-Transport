@@ -1,5 +1,5 @@
-#ifndef GEOMETRY_H
-#define GEOMETRY_H
+#ifndef GFXBASE_H
+#define GFXBASE_H
 
 #include "vec3.h"
 
@@ -17,4 +17,4 @@ struct Ray {
 using Collision = struct Collision;
 using Ray = struct Ray;
 
-#endif /* GEOMETRY_H */
+#endif /* GFXBASE_H */
