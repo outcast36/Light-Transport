@@ -3,6 +3,8 @@
 #include <cmath>
 #include "Geometry.h"
 
+Sphere::Sphere(vec3<double>& center, double radius) : center(center), radius(radius) {};
+
 int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
     vec3<double> center_to_origin = ray.origin - this->center;
     double radius_squared = this->radius * this->radius;
