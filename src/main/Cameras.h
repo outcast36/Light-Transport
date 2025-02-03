@@ -2,7 +2,7 @@
 #define CAMERAS_H
 
 #include <cstdint>
-#include "Geometry.h"
+#include "GFXBase.h"
 #include "vec3.h"
 
 class Camera {
