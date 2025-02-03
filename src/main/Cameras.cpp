@@ -21,7 +21,7 @@ PerspectiveCamera::PerspectiveCamera(uint32_t width, uint32_t height) : Camera(w
 }
 
 Ray PerspectiveCamera::pixelToRay(int32_t i, int32_t j) {
-    double viewport_height = 2 * this->focal_length* tan(this->vfov/2);
+    double viewport_height = 2 * this->focal_length * tan(this->vfov/2);
     double viewport_width = viewport_height * this->aspect_ratio;
     double u = viewport_width * (((j+0.5)/this->img_width) - 0.5);
     double v = viewport_height * (((i+0.5)/this->img_height) - 0.5);
