@@ -1,31 +1,32 @@
-#ifndef SHAPES_H
-#define SHAPES_H
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
 
 #include <cstdint>
-#include "Geometry.h"
+#include "GFXBase.h"
 #include "vec3.h"
 
-// Abstract shape class, shapes must be able to be intersected by a ray
-class Shape {
+// Abstract shape class, shapes and surfaces must be able to be intersected by a ray
+class Geometry {
     public:
         virtual int32_t rayIntersect(Collision* hit, Ray ray)=0; // pure virtual function
 };
 
-class Sphere : public Shape {
+class Sphere : public Geometry {
     public:
+        Sphere(vec3<double>& center, double radius);
         int32_t rayIntersect(Collision* hit, Ray ray);
         vec3<double> center;
         double radius;
 };
 
-class Plane : public Shape {
+class Plane : public Geometry {
     public:
         int32_t rayIntersect(Collision* hit, Ray ray);
         vec3<double> point;
         vec3<double> normal;
 };
 
-class Cylinder : public Shape {
+class Cylinder : public Geometry {
     public: 
         int32_t rayIntersect(Collision* hit, Ray ray);
         vec3<double> axis_of_rotation; // normal vector for some cross sectional plane of the cylinder
@@ -34,4 +35,4 @@ class Cylinder : public Shape {
         double radius;
 };
 
-#endif /* SHAPES_H */
+#endif /* GEOMETRY_H */
