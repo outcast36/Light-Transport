@@ -3,6 +3,26 @@
 #include <cmath>
 #include "Geometry.h"
 
+Scene::Scene() {};
+
+// currently without an acceleration structure -- linear search through objects 
+int32_t Scene::rayIntersect(Collision* hit, Ray ray) {
+    Collision cur;
+    double closest_t = MAXFLOAT;
+    int32_t res=-1; // return -1 on no intersection
+    for (const auto& surface : this->geometry_list) {
+        if (surface->rayIntersect(&cur, ray)==0) {
+            res = 0;
+            if (cur.t < closest_t) *hit = cur;
+        }
+    }
+    return res;
+}
+
+void Scene::clearScene() {
+    this->geometry_list.clear();
+}
+
 Sphere::Sphere(vec3<double>& center, double radius) : center(center), radius(radius) {};
 
 int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
