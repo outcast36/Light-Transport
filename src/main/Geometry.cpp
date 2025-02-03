@@ -2,7 +2,6 @@
 #include <cstdint> 
 #include <cmath>
 #include "Geometry.h"
-#include "Shapes.h"
 
 int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
     vec3<double> center_to_origin = ray.origin - this->center;
