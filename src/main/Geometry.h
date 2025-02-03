@@ -2,6 +2,8 @@
 #define GEOMETRY_H
 
 #include <cstdint>
+#include <memory>
+#include <vector>
 #include "GFXBase.h"
 #include "vec3.h"
 
@@ -9,6 +11,17 @@
 class Geometry {
     public:
         virtual int32_t rayIntersect(Collision* hit, Ray ray)=0; // pure virtual function
+};
+
+// Class for list of geometric objects, wrap the closest intersection method as a 
+// rayIntersect implementation 
+class Scene : public Geometry {
+    public:
+        Scene() {};
+        int32_t rayIntersect(Collision* hit, Ray ray);
+        void clearScene();
+        std::vector<std::shared_ptr<Geometry>> geometry_list; // list of objects in the scene
+
 };
 
 class Sphere : public Geometry {
