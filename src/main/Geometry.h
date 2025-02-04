@@ -20,6 +20,7 @@ class Scene : public Geometry {
         Scene() {};
         int32_t rayIntersect(Collision* hit, Ray ray);
         void clearScene();
+        void add(std::shared_ptr<Geometry>); // push_back wrapper
         std::vector<std::shared_ptr<Geometry>> geometry_list; // list of objects in the scene
 
 };
