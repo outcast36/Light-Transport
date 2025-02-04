@@ -22,40 +22,34 @@ int main(int argc, char *argv[]){
         std::perror("Invalid Argument. Usage is: [executable_name] [img-out-path]");
         exit(EXIT_FAILURE);
     }
-
-    std::vector<Model> scene_objects;
     
-    vec3<double> c(0,1,-15);
-    vec3<double> c2(0,-1,-8);
-    vec3<float> color(0,0,0);
-    vec3<double> light(0,-1,-1);
-    light = unitVector(light);
-    
+    // Set up scene with camera object, light direction, and geometric objects
+    Scene scene_objects;
     PerspectiveCamera camera(480,480);
-    Collision hit;
-    Sphere s1(c, 1);
-    Sphere s2(c2,1);
-    Model ball(red, s1);
-    Model b2(red,s2);
+    Collision hit; // hit object to feed to Scene.rayIntersect to see if ray(i,j) intersects the scene at all
+    vec3<double> light(0,-1,-1); light = unitVector(light);
+    vec3<float> color;
+    vec3<double> rb_center(0,1,-5);
+    Sphere rb(rb_center, 1.0);
+    std::shared_ptr<Sphere> sphere_ptr = std::make_shared<Sphere>(rb);
+    scene_objects.add(sphere_ptr);
+    int32_t hit_status = -1;
     
-    int32_t hit_status;
-    //scene_objects.push_back(ball);
-    scene_objects.push_back(b2);
-
     // render_image is owner of unique_ptr<> which holds the array of 
     // floating point data representing the rgb pixel values
-    PFMImage render_image(480, 480, 1.0, true); // 480x480 RGB image
+    PFMImage render_image(480, 480, 1.0, true); // (width, height, max intensity float, rgb?) -- 480x480 RGB image
 
     // hardcoded image dimensions of 480x480 (1:1 aspect)
-    std::cout << "Rendering scene with: " << scene_objects.size() << " object(s)\n";
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     for (uint32_t i=0;i<480;i++) { // numbered 0 to height from bottom to top
         for (uint32_t j=0;j<480;j++) { // numbered 0 to width from left to right
+            color = black;
             Ray ray = camera.pixelToRay(i,j);
-            hit_status = closestIntersect(scene_objects, &hit, ray);
+            hit_status = scene_objects.rayIntersect(&hit, ray);
+            //std::cout << (hit_status) << std::endl;
             if (hit_status<0) color = black;
             else {
-                float diffuse = std::max(0.0,dot(hit.surface_normal, -light));
+                float diffuse = 1.0;//std::max(0.0,dot(hit.surface_normal, -light));
                 color = (diffuse*white);
             }
             (*(render_image.img_array.get()))[i][j] = color; 
@@ -69,6 +63,6 @@ int main(int argc, char *argv[]){
         std::perror("Writing image failed. Exiting.");
         exit(EXIT_FAILURE);
     }
-    std::cout << "Done writing image\n";
+    std::cout << "Done writing image.\n";
     return 0; // EXIT_SUCCESS;  
 }

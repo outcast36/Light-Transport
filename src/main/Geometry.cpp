@@ -1,5 +1,6 @@
 #include <cstddef> 
 #include <cstdint> 
+#include <iostream>
 #include <cmath>
 #include "Geometry.h"
 

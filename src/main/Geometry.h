@@ -17,7 +17,7 @@ class Geometry {
 // rayIntersect implementation 
 class Scene : public Geometry {
     public:
-        Scene() {};
+        Scene();
         int32_t rayIntersect(Collision* hit, Ray ray);
         void clearScene();
         void add(std::shared_ptr<Geometry>); // push_back wrapper
