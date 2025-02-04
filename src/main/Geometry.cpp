@@ -23,6 +23,10 @@ void Scene::clearScene() {
     this->geometry_list.clear();
 }
 
+void Scene::add(std::shared_ptr<Geometry> item) {
+    this->geometry_list.push_back(item);
+}
+
 Sphere::Sphere(vec3<double>& center, double radius) : center(center), radius(radius) {};
 
 int32_t Sphere::rayIntersect(Collision* hit, Ray ray) {
