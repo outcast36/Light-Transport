@@ -34,6 +34,7 @@ class Sphere : public Geometry {
 
 class Plane : public Geometry {
     public:
+        Plane(vec3<double>& point, vec3<double>& normal);
         int32_t rayIntersect(Collision* hit, Ray ray, float tmin, float tmax);
         vec3<double> point;
         vec3<double> normal;
@@ -41,6 +42,7 @@ class Plane : public Geometry {
 
 class Cylinder : public Geometry {
     public: 
+        Cylinder(vec3<double>& axis, vec3<double>& point, double height, double radius);
         int32_t rayIntersect(Collision* hit, Ray ray, float tmin, float tmax);
         vec3<double> axis_of_rotation; // normal vector for some cross sectional plane of the cylinder
         vec3<double> point_in_center; // point on line forming axis of rotation
