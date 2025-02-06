@@ -53,6 +53,8 @@ int32_t Sphere::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     return 0;
 }
 
+Plane::Plane(vec3<double>& point, vec3<double>& normal) : point(point), normal(normal) {};
+
 int32_t Plane::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     double denominator = dot(this->normal, ray.direction);
     if (denominator == 0.0) return -1; // floating point accuracy?
@@ -64,6 +66,9 @@ int32_t Plane::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     hit->surface_normal = this->normal;
     return 0;
 }
+
+Cylinder::Cylinder(vec3<double>& axis, vec3<double>& point, double height, double radius) : 
+axis_of_rotation(axis), point_in_center(point), height(height), radius(radius) {};
 
 int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     vec3<double> axis_to_origin = ray.origin - this->point_in_center;
