@@ -70,31 +70,29 @@ int32_t Plane::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
 Cylinder::Cylinder(vec3<double>& axis, vec3<double>& point, double height, double radius) : 
 axis_of_rotation(axis), point_in_center(point), height(height), radius(radius) {};
 
-int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
+int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {   
     vec3<double> axis_to_origin = ray.origin - this->point_in_center;
-    vec3<double> scaled_rotation_axis = dot(ray.direction, axis_of_rotation) * this->axis_of_rotation;
+    double regularization = dot(this->axis_of_rotation, axis_to_origin);
+    double dir_projection = dot(this->axis_of_rotation, ray.direction);
     double radius_squared = this->radius * this->radius;
     double inverse_radius = 1/this->radius;
-    double regularization = dot(axis_of_rotation, axis_to_origin) * dot(axis_of_rotation, axis_to_origin);
-    double a = dot(ray.direction, ray.direction - this->axis_of_rotation);
+    double a = dot(ray.direction, ray.direction) - (dir_projection * dir_projection);
     double inverse_a = 1/a;
-    double half_b = dot(axis_to_origin, ray.direction - scaled_rotation_axis);
-    double c = dot(axis_to_origin, axis_to_origin) - regularization - radius_squared;
+    double half_b = dot(ray.direction, axis_to_origin) - (regularization * dir_projection);
+    double c = axis_to_origin.lengthSquared() - (regularization * regularization) - radius_squared;
     double discriminant = (half_b * half_b) - (a * c); 
-
     if (discriminant < 0) return -1; // no intersection
+    vec3<double> intersection;
     // the closest interesection is with the smallest positive solution for t
     double t = ((-half_b) - sqrt(discriminant)) * inverse_a;
     // only compute t1 (the + solution to quadratic) if the other solution is negative
     if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
-    if (t < tmin || t > tmax) return -1;
-    vec3<double> intersection;
+    if (t < tmin || t > tmax) return -1; // solution to quadratic is valid, but not in search interval
     intersection = ray.origin + (t * ray.direction);
-    vec3<double> intersection_to_axis = intersection - point_in_center;
-    double projection_length = dot(intersection_to_axis, this->axis_of_rotation);
-    vec3<double> orthogonal_component = intersection_to_axis - (projection_length * this->axis_of_rotation);
+    vec3<double> axis_to_intersection = intersection - this->point_in_center;
+    vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     hit->intersection = intersection;
-    hit->surface_normal = orthogonal_component * inverse_radius;
+    hit->surface_normal = axis_to_intersection - projection;
     hit->t = t;
     return 0;
 }
