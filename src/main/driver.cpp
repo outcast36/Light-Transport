@@ -29,11 +29,27 @@ int main(int argc, char *argv[]){
     Collision hit; // hit object to feed to Scene.rayIntersect to see if ray(i,j) intersects the scene at all
     vec3<double> light(0,-1,-1); light = unitVector(light);
     vec3<float> color;
-    vec3<double> rb_center(0,1,-5);
-    Sphere rb(rb_center, 1.0);
-    std::shared_ptr<Sphere> sphere_ptr = std::make_shared<Sphere>(rb);
-    scene_objects.add(sphere_ptr);
+    vec3<double> fb_center(0,-100.5,-1);
+    vec3<double> rb_center(0,0.5,-2.5);
+    vec3<double> a(10,10,-10);
+    vec3<double> n(-1,0,1); n = unitVector(n);
+    vec3<double> cp(0,0,-5);
+    vec3<double> axis(0,1,0);
+    //Plane wall(a, n);
+    Sphere fb(fb_center, 100);
+    Sphere rb(rb_center, 0.5);
+    Cylinder cyl(axis,cp,1,1);
+    std::shared_ptr<Cylinder> cyl_ptr = std::make_shared<Cylinder>(cyl);
+    //std::shared_ptr<Sphere> sphere_ptr = std::make_shared<Sphere>(rb);
+    //std::shared_ptr<Sphere> floor_ptr = std::make_shared<Sphere>(fb);
+    //std::shared_ptr<Plane> wall_ptr = std::make_shared<Plane>(wall);
+    //scene_objects.add(sphere_ptr);
+    //scene_objects.add(floor_ptr);
+    scene_objects.add(cyl_ptr);
+    //scene_objects.add(wall_ptr);
     int32_t hit_status = -1;
+    float normal_factor = 0.5;
+    float tmin = 0.0, tmax = MAXFLOAT;
     
     // render_image is owner of unique_ptr<> which holds the array of 
     // floating point data representing the rgb pixel values
@@ -45,12 +61,10 @@ int main(int argc, char *argv[]){
         for (uint32_t j=0;j<480;j++) { // numbered 0 to width from left to right
             color = black;
             Ray ray = camera.pixelToRay(i,j);
-            hit_status = scene_objects.rayIntersect(&hit, ray);
-            //std::cout << (hit_status) << std::endl;
-            if (hit_status<0) color = black;
-            else {
-                float diffuse = 1.0;//std::max(0.0,dot(hit.surface_normal, -light));
-                color = (diffuse*white);
+            hit_status = scene_objects.rayIntersect(&hit, ray, tmin, tmax);
+            if (hit_status==0) {
+                vec3<float> normal_float(hit.surface_normal.x(), hit.surface_normal.y(), hit.surface_normal.z());
+                color = normal_factor * (normal_float + white);
             }
             (*(render_image.img_array.get()))[i][j] = color; 
         }
