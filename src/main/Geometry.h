@@ -50,4 +50,17 @@ class Cylinder : public Geometry {
         double radius;
 };
 
+class Cone : public Geometry {
+    public: 
+        Cone(vec3<double>& axis, vec3<double>& point, double height, double theta);
+        int32_t rayIntersect(Collision* hit, Ray ray, float tmin, float tmax);
+        vec3<double> axis_of_rotation;
+        vec3<double> apex;
+        double height;
+        double theta;
+};
+
+// general rotation surface -- general 2D curve not just lines
+// torus, ellipsoid, triangle, pyramid, cube, polygon, polyhedra
+
 #endif /* GEOMETRY_H */

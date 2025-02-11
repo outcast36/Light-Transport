@@ -92,7 +92,37 @@ int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) 
     vec3<double> axis_to_intersection = intersection - this->point_in_center;
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     hit->intersection = intersection;
-    hit->surface_normal = axis_to_intersection - projection;
+    hit->surface_normal = (axis_to_intersection - projection) * inverse_radius;
+    hit->t = t;
+    return 0;
+}
+
+Cone::Cone(vec3<double>& axis, vec3<double>& apex, double height, double theta) :
+axis_of_rotation(axis), apex(apex), height(height), theta(theta) {};
+
+int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
+    vec3<double> axis_to_origin = ray.origin - this->apex;
+    double regularization = dot(this->axis_of_rotation, axis_to_origin);
+    double dir_projection = dot(this->axis_of_rotation, ray.direction);
+    double cosine_squared = cos(this->theta) * cos(this->theta);
+    double a = (cosine_squared * dot(ray.direction, ray.direction)) - (dir_projection * dir_projection);
+    double inverse_a = 1/a;
+    double half_b = (cosine_squared * dot(ray.direction, axis_to_origin)) - (regularization * dir_projection);
+    double c = cosine_squared * axis_to_origin.lengthSquared() - (regularization * regularization);
+    double discriminant = (half_b * half_b) - (a * c); 
+    if (discriminant < 0) return -1; // no intersection
+    vec3<double> intersection;
+    // the closest interesection is with the smallest positive solution for t
+    double t = ((-half_b) - sqrt(discriminant)) * inverse_a;
+    // only compute t1 (the + solution to quadratic) if the other solution is negative
+    if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
+    if (t < tmin || t > tmax) return -1; // solution to quadratic is valid, but not in search interval
+    intersection = ray.origin + (t * ray.direction);
+    vec3<double> axis_to_intersection = intersection - this->apex;
+    if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1;
+    vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
+    hit->intersection = intersection;
+    hit->surface_normal = unitVector(axis_to_intersection - projection);
     hit->t = t;
     return 0;
 }
