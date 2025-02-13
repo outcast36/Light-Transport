@@ -31,4 +31,4 @@ The coefficients of the regular form:
 See ```ray-sphere.md``` for full derivation on the first term of the cylinder form. 
 
 ## Surface Normals
-The orthogonal component of the vector from axis to intersection: $ (\vec{p} + t\vec{d} - \vec{a}) - (\vec{p} + t\vec{d} - \vec{a} \cdot \vec{n})\vec{n}$
+The orthogonal component of the vector from axis to intersection: $(\vec{p} + t\vec{d} - \vec{a}) - (\vec{p} + t\vec{d} - \vec{a} \cdot \vec{n})\vec{n}$
