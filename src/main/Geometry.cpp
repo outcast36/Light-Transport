@@ -119,9 +119,11 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     if (t < tmin || t > tmax) return -1; // solution to quadratic is valid, but not in search interval
     intersection = ray.origin + (t * ray.direction);
     vec3<double> axis_to_intersection = intersection - this->apex;
-    if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1;
+    if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     hit->intersection = intersection;
+    
+    // TODO Calculate normals correctly
     hit->surface_normal = unitVector(axis_to_intersection - projection);
     hit->t = t;
     return 0;
