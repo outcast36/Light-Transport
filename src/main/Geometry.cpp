@@ -90,7 +90,9 @@ int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) 
     if (t < tmin || t > tmax) return -1; // solution to quadratic is valid, but not in search interval
     intersection = ray.origin + (t * ray.direction);
     vec3<double> axis_to_intersection = intersection - this->point_in_center;
-    vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
+    double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
+    vec3<double> projection = projection_len * this->axis_of_rotation;
+    if (projection_len < 0 || projection_len > this->height) return -1;
     hit->intersection = intersection;
     hit->surface_normal = (axis_to_intersection - projection) * inverse_radius;
     hit->t = t;
