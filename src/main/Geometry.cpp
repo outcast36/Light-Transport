@@ -125,7 +125,10 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     if (t < tmin || t > tmax) return -1; // solution to quadratic is valid, but not in search interval
     intersection = ray.origin + (t * ray.direction);
     vec3<double> axis_to_intersection = intersection - this->apex;
+    double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
     if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
+    // only instersect if the length of the projection to the rotation axis is in [0,h]
+    if (abs(projection_len) > this->height) return -1; // height bound cone
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     vec3<double> gradient = this->axis_of_rotation - (cosine * unitVector(axis_to_intersection));
     hit->intersection = intersection;
