@@ -1,7 +1,10 @@
 #include <cstddef> 
 #include <cstdint> 
 #include <cmath>
+#include <iostream> 
 #include "Geometry.h"
+
+constexpr double pi = M_PI;
 
 Scene::Scene() {};
 
@@ -106,7 +109,8 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     vec3<double> axis_to_origin = ray.origin - this->apex;
     double regularization = dot(this->axis_of_rotation, axis_to_origin);
     double dir_projection = dot(this->axis_of_rotation, ray.direction);
-    double cosine_squared = cos(this->theta) * cos(this->theta);
+    double cosine = cos(this->theta);
+    double cosine_squared = cosine * cosine;
     double a = (cosine_squared * dot(ray.direction, ray.direction)) - (dir_projection * dir_projection);
     double inverse_a = 1/a;
     double half_b = (cosine_squared * dot(ray.direction, axis_to_origin)) - (regularization * dir_projection);
@@ -123,10 +127,10 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     vec3<double> axis_to_intersection = intersection - this->apex;
     if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
+    vec3<double> gradient = this->axis_of_rotation - (cosine * unitVector(axis_to_intersection));
+    vec3<double> cylinder_norm = unitVector(axis_to_intersection - projection);
     hit->intersection = intersection;
-    
-    // TODO Calculate normals correctly
-    hit->surface_normal = unitVector(axis_to_intersection - projection);
+    hit->surface_normal = -unitVector(gradient);
     hit->t = t;
     return 0;
 }
