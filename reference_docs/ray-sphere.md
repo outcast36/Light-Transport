@@ -53,9 +53,9 @@ of the form $(a+b)^2 = a^2 + 2ab + b^2$ written using dot product notation, whic
 \end{center}
 
 ## Surface Normals:
-The vector normal to the sphere's surface at the intersection point $\vec{q} = \vec{p} + t\vec{d}$ is 
+The vector normal to the sphere's surface at the intersection point $\vec{x} = \vec{p} + t\vec{d}$ is 
 \begin{center}
-    $\frac{1}{r}(\vec{q} - \vec{c})$
+    $\frac{1}{r}(\vec{x} - \vec{c})$
 \end{center}
 The gradient of the implicit function describing the sphere is:
 \begin{center}
