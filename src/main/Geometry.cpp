@@ -128,7 +128,6 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     vec3<double> gradient = this->axis_of_rotation - (cosine * unitVector(axis_to_intersection));
-    vec3<double> cylinder_norm = unitVector(axis_to_intersection - projection);
     hit->intersection = intersection;
     hit->surface_normal = -unitVector(gradient);
     hit->t = t;
