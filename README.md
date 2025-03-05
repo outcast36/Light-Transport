@@ -19,3 +19,7 @@ To run:
 2. cd to ```<path-to-cloned-repo>/Light-Transport/```
 3. ```make```
 4. ```./render <render-out-path>```
+   
+# Implemented
+* Support for HDR rendering using PFM image format
+* Geometric primitives: Spheres, Cones, Cylinders, Planes, Triangles
