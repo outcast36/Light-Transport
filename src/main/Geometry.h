@@ -60,7 +60,7 @@ class Cone : public Geometry {
         double theta;
 };
 
-// general rotation surface -- general 2D curve not just lines
-// torus, ellipsoid, triangle, pyramid, cube, polygon, polyhedra
+// for sure torus, ellipsoid, triangle, 
+// maybe pyramid, cube, polygon, polyhedra, general rotation surface -- general 2D curve not just lines
 
 #endif /* GEOMETRY_H */
