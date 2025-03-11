@@ -13,3 +13,13 @@ This is a work in progress project, maybe this will be updated in the future
 
 Compile reference materials to nice looking PDFs using pandoc:
 ```pandoc [reference.md] -o [reference.pdf]```
+
+To run:
+1. ```git clone https://github.com/outcast36/Light-Transport```
+2. cd to ```<path-to-cloned-repo>/Light-Transport/```
+3. ```make```
+4. ```./render <render-out-path>```
+   
+# Implemented
+* Support for HDR rendering using PFM image format
+* Geometric primitives: Spheres, Cones, Cylinders, Planes, Triangles
