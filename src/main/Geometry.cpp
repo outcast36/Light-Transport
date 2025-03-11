@@ -1,7 +1,6 @@
 #include <cstddef> 
 #include <cstdint> 
 #include <cmath>
-#include <iostream> 
 #include "Geometry.h"
 
 constexpr double pi = M_PI;
@@ -43,16 +42,17 @@ int32_t Sphere::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     double c = (center_to_origin.lengthSquared()) - radius_squared;
     double discriminant = (half_b * half_b) - (a * c); 
     if (discriminant < 0) return -1; // no intersection
-    vec3<double> intersection;
-    // the closest interesection is with the smallest positive solution for t
-    double t = ((-half_b) - sqrt(discriminant)) * inverse_a;
-    // only compute t1 (the + solution to quadratic) if the other solution is negative
-    if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
+    // Compute intersection interval
+    double t0 = ((-half_b) - sqrt(discriminant)) * inverse_a;
+    double t1 = ((-half_b) + sqrt(discriminant)) * inverse_a;
+    double t = (t0 > 0) ? t0 : t1;
+    Interval hitRange(t0,t1);
     if (!range.contains(t)) return -1; // solution to quadratic is valid, but not in search interval
-    intersection = ray.origin + (t * ray.direction);
+    vec3<double> intersection = ray.origin + (t * ray.direction);
     hit->intersection = intersection;
     hit->surface_normal = (intersection - this->center) * inverse_radius;
     hit->t = t;
+    hit->range = hitRange;
     return 0;
 }
 
@@ -85,13 +85,13 @@ int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     double c = axis_to_origin.lengthSquared() - (regularization * regularization) - radius_squared;
     double discriminant = (half_b * half_b) - (a * c); 
     if (discriminant < 0) return -1; // no intersection
-    vec3<double> intersection;
-    // the closest interesection is with the smallest positive solution for t
-    double t = ((-half_b) - sqrt(discriminant)) * inverse_a;
-    // only compute t1 (the + solution to quadratic) if the other solution is negative
-    if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
+    // Compute intersection interval
+    double t0 = ((-half_b) - sqrt(discriminant)) * inverse_a;
+    double t1 = ((-half_b) + sqrt(discriminant)) * inverse_a;
+    double t = (t0 > 0) ? t0 : t1;
+    Interval hitRange(t0,t1);
     if (!range.contains(t)) return -1; // solution to quadratic is valid, but not in search interval
-    intersection = ray.origin + (t * ray.direction);
+    vec3<double> intersection = ray.origin + (t * ray.direction);
     vec3<double> axis_to_intersection = intersection - this->point_in_center;
     double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
     vec3<double> projection = projection_len * this->axis_of_rotation;
@@ -99,6 +99,7 @@ int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     hit->intersection = intersection;
     hit->surface_normal = (axis_to_intersection - projection) * inverse_radius;
     hit->t = t;
+    hit->range = hitRange;
     return 0;
 }
 
@@ -117,13 +118,13 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     double c = cosine_squared * axis_to_origin.lengthSquared() - (regularization * regularization);
     double discriminant = (half_b * half_b) - (a * c); 
     if (discriminant < 0) return -1; // no intersection
-    vec3<double> intersection;
-    // the closest interesection is with the smallest positive solution for t
-    double t = ((-half_b) - sqrt(discriminant)) * inverse_a;
-    // only compute t1 (the + solution to quadratic) if the other solution is negative
-    if (t < 0) t = ((-half_b) + sqrt(discriminant)) * inverse_a; 
+    // Compute intersection interval
+    double t0 = ((-half_b) - sqrt(discriminant)) * inverse_a;
+    double t1 = ((-half_b) + sqrt(discriminant)) * inverse_a;
+    double t = (t0 > 0) ? t0 : t1;
+    Interval hitRange(t0,t1);
     if (!range.contains(t)) return -1; // solution to quadratic is valid, but not in search interval
-    intersection = ray.origin + (t * ray.direction);
+    vec3<double> intersection = ray.origin + (t * ray.direction);
     vec3<double> axis_to_intersection = intersection - this->apex;
     double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
     if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
@@ -134,5 +135,6 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     hit->intersection = intersection;
     hit->surface_normal = -unitVector(gradient);
     hit->t = t;
+    hit->range = hitRange;
     return 0;
 }
