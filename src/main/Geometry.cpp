@@ -16,7 +16,7 @@ int32_t Scene::rayIntersect(Collision* hit, Ray ray, float tmin, float tmax) {
     for (const auto& surface : this->geometry_list) {
         if (surface->rayIntersect(&cur, ray, tmin, tmax)==0) {
             res = 0; // hit any object with t in [tmin, tmax]
-            if (cur.t < closest_t && tmin <= cur.t && cur.t <= tmax) *hit = cur;
+            if (cur.t < closest_t && tmin <= cur.t && cur.t <= tmax) *hit = cur; 
         }
     }
     return res;
