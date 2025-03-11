@@ -10,7 +10,7 @@
 #include "GFXBase.h"
 #include "Cameras.h"
 #include "colors.h"
-#include "Models.h"
+#include "TestScenes.h"
 
 /*
 Main ray tracing render loop: determine color for each pixel
@@ -24,32 +24,14 @@ int main(int argc, char *argv[]){
     }
     
     // Set up scene with camera object, light direction, and geometric objects
-    Scene scene_objects;
+    Scene scene_objects = scene3();
     PerspectiveCamera camera(480,480);
     Collision hit; // hit object to feed to Scene.rayIntersect to see if ray(i,j) intersects the scene at all
     vec3<double> light(0,-1,-1); light = unitVector(light);
     vec3<float> color;
-    vec3<double> fb_center(0,-100.5,-1);
-    vec3<double> rb_center(0,0.5,-2.5);
-    vec3<double> a(10,10,-10);
-    vec3<double> n(-1,0,1); n = unitVector(n);
-    vec3<double> cp(0,0,-5);
-    vec3<double> axis(0,1,0);
-    //Plane wall(a, n);
-    Sphere fb(fb_center, 100);
-    Sphere rb(rb_center, 0.5);
-    Cylinder cyl(axis,cp,1,1);
-    std::shared_ptr<Cylinder> cyl_ptr = std::make_shared<Cylinder>(cyl);
-    //std::shared_ptr<Sphere> sphere_ptr = std::make_shared<Sphere>(rb);
-    //std::shared_ptr<Sphere> floor_ptr = std::make_shared<Sphere>(fb);
-    //std::shared_ptr<Plane> wall_ptr = std::make_shared<Plane>(wall);
-    //scene_objects.add(sphere_ptr);
-    //scene_objects.add(floor_ptr);
-    scene_objects.add(cyl_ptr);
-    //scene_objects.add(wall_ptr);
+    Interval hitRange(0.0, MAXFLOAT);
     int32_t hit_status = -1;
     float normal_factor = 0.5;
-    float tmin = 0.0, tmax = MAXFLOAT;
     
     // render_image is owner of unique_ptr<> which holds the array of 
     // floating point data representing the rgb pixel values
@@ -59,9 +41,10 @@ int main(int argc, char *argv[]){
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     for (uint32_t i=0;i<480;i++) { // numbered 0 to height from bottom to top
         for (uint32_t j=0;j<480;j++) { // numbered 0 to width from left to right
+            //std::cout << "Row: " << i << " Column: " << j << '\n';
             color = black;
             Ray ray = camera.pixelToRay(i,j);
-            hit_status = scene_objects.rayIntersect(&hit, ray, tmin, tmax);
+            hit_status = scene_objects.rayIntersect(&hit, ray, hitRange);
             if (hit_status==0) {
                 vec3<float> normal_float(hit.surface_normal.x(), hit.surface_normal.y(), hit.surface_normal.z());
                 color = normal_factor * (normal_float + white);
