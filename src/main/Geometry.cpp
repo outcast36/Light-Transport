@@ -95,7 +95,15 @@ int32_t Cylinder::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     vec3<double> axis_to_intersection = intersection - this->point_in_center;
     double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
     vec3<double> projection = projection_len * this->axis_of_rotation;
+    //vec3<double> orthogonal_component = (axis_to_intersection - projection);
     if (projection_len < 0 || projection_len > this->height) return -1;
+
+    // how to intersect the top and bottom discs where projection length == 0 || projection length == height
+    
+    //if (projection_len == 0 || projection_len == this->height) {
+    //    if (projection_len == 0) hit_surface_normal
+    //    hit->surface_normal = 
+    //}
     hit->intersection = intersection;
     hit->surface_normal = (axis_to_intersection - projection) * inverse_radius;
     hit->t = t;
@@ -129,7 +137,10 @@ int32_t Cone::rayIntersect(Collision* hit, Ray ray, Interval& range) {
     double projection_len = dot(axis_to_intersection, this->axis_of_rotation);
     if (dot(axis_to_intersection, this->axis_of_rotation) < 0) return -1; // only take the same half cone pointing with axis vector
     // only instersect if the length of the projection to the rotation axis is in [0,h]
-    if (abs(projection_len) > this->height) return -1; // height bound cone
+    if (abs(projection_len) > this->height) return -1; // height bound 
+    
+    // how to intersect disc where projection length == height
+
     vec3<double> projection = dot(axis_to_intersection, this->axis_of_rotation) * this->axis_of_rotation;
     vec3<double> gradient = this->axis_of_rotation - (cosine * unitVector(axis_to_intersection));
     hit->intersection = intersection;
