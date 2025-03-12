@@ -13,7 +13,7 @@ enum SetOperation{unions, intersect, difference};
 // Store a single node of the CSG tree with two objects to combine
 class CSG : public Geometry {
     public:
-        CSG();
+        CSG(std::shared_ptr<Geometry> left, std::shared_ptr<Geometry> right, SetOperation op);
         int32_t rayIntersect(Collision* hit, Ray ray, Interval& range);
     private:
         // Consider making the left and right operands Geometry& ?? 
