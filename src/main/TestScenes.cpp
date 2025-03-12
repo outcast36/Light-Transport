@@ -39,3 +39,40 @@ Scene scene3() {
     scene_objects.add(cone_ptr);
     return scene_objects;
 }
+
+// Union operation on two spheres
+Scene scene4() {
+    Scene scene_objects;
+    vec3<double> rb_center(0,0.5,-5);
+    Sphere rb(rb_center, 1);
+    std::shared_ptr<Sphere> left_ptr = std::make_shared<Sphere>(rb);
+
+    vec3<double> fb_center(0.75,0.5,-4.5);
+    Sphere fb(fb_center, 1);
+    std::shared_ptr<Sphere> right_ptr = std::make_shared<Sphere>(fb);
+
+    CSG union_object(left_ptr, right_ptr, unions);
+    std::shared_ptr<CSG> union_ptr = std::make_shared<CSG>(union_object);
+
+    scene_objects.add(union_ptr);
+    return scene_objects;
+}
+
+// A sphere with a cylinder parallel to the z-axis cut out from the center
+Scene scene5() {
+    Scene scene_objects;
+    vec3<double> rb_center(0,0.5,-5);
+    Sphere rb(rb_center, 1);
+    std::shared_ptr<Sphere> left_ptr = std::make_shared<Sphere>(rb);
+
+    vec3<double> cylinder_axis(0,0,1);
+    vec3<double> cylinder_base_point(0,0.5,-6);
+    Cylinder vert(cylinder_axis, cylinder_base_point, 3, 0.5);
+    std::shared_ptr<Cylinder> right_ptr = std::make_shared<Cylinder>(vert);
+
+    CSG difference_object(left_ptr, right_ptr, difference);
+    std::shared_ptr<CSG> cut_ptr = std::make_shared<CSG>(difference_object);
+
+    scene_objects.add(cut_ptr);
+    return scene_objects;
+}
