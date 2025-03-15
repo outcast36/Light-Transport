@@ -38,13 +38,16 @@ Interval intersectInterval(Interval& a, Interval& b) {
 
 // A - B
 Interval differenceInterval(Interval& a, Interval& b) {
-    // Case where A interval is completely inside the B interval, return empty interval
+    // Return empty interval when A interval is equal to or inside of B interval
     if (a.min >= b.min && a.max <= b.max) return Interval();
-    // Case where B interval splits A interval
-    else if (b.min > a.min && b.max < a.max) {
+    // Difference interval A - B is completely to the right of B interval
+    else if (a.min >= b.min && a.max > b.max) return Interval(b.max, a.max);
+    // Difference interval A - B is completely to the left of B interval
+    else if (a.min < b.min && a.max <= b.max) return Interval(a.min, b.min);
+    // Difference interval A - B splits the A interval into two sections
+    // Return closer of the two difference intervals with a min value > 0
+    else {
         if (a.min > 0) return Interval(a.min, b.min);
-        else return Interval(b.max, a.max);
+        else return Interval(a.max, b.max);
     }
-    else if (a.min < b.min) return Interval(a.min, b.min);
-    else return Interval(b.max, a.max);
 }
