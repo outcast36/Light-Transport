@@ -76,3 +76,36 @@ Scene scene5() {
     scene_objects.add(cut_ptr);
     return scene_objects;
 }
+
+// Unit height and radius cylinder angled up off the xz-plane
+Scene scene6() {
+    Scene scene_objects;
+    vec3<double> cylinder_axis(0,1,0);
+    cylinder_axis = unitVector(cylinder_axis);
+    vec3<double> cylinder_base_point(0,-2,-5);
+
+    Cylinder angled(cylinder_axis, cylinder_base_point, 1, 1);
+    std::shared_ptr<Cylinder> cyl_ptr = std::make_shared<Cylinder>(angled);
+
+    scene_objects.add(cyl_ptr);
+    return scene_objects;
+}
+
+// Discs that should be appearing in scene6 renders
+Scene scene7() {
+    Scene scene_objects;
+    vec3<double> bot_center(0,-2,-5);
+    vec3<double> bot_norm(0,-1,0);
+    vec3<double> top_norm(0,1,0);
+    vec3<double> top_center(0,-1,-5);
+
+    Disc bot(bot_center, bot_norm, 1);
+    std::shared_ptr<Disc> bot_ptr = std::make_shared<Disc>(bot);
+
+    Disc top(top_center, top_norm, 1);
+    std::shared_ptr<Disc> top_ptr = std::make_shared<Disc>(top);
+
+    scene_objects.add(bot_ptr);
+    scene_objects.add(top_ptr);
+    return scene_objects;
+}

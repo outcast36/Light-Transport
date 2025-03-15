@@ -13,5 +13,7 @@ Scene scene2();
 Scene scene3();
 Scene scene4();
 Scene scene5();
+Scene scene6();
+Scene scene7();
 
 #endif /* TESTSCENES_H */
