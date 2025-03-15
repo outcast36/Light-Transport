@@ -41,6 +41,16 @@ class Plane : public Geometry {
         vec3<double> normal;
 };
 
+class Disc : public Geometry {
+    public:
+        Disc();
+        Disc(vec3<double>& point, vec3<double>& normal, double radius);
+        int32_t rayIntersect(Collision* hit, Ray ray, Interval& range);
+        vec3<double> center;
+        vec3<double> normal;
+        double radius;
+};
+
 class Cylinder : public Geometry {
     public: 
         Cylinder(vec3<double>& axis, vec3<double>& point, double height, double radius);
@@ -49,6 +59,9 @@ class Cylinder : public Geometry {
         vec3<double> point_in_center; // point on line forming axis of rotation
         double height;
         double radius;
+    private:
+        Disc top;
+        Disc bot;
 };
 
 class Cone : public Geometry {
