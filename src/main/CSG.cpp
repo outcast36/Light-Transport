@@ -1,4 +1,5 @@
 #include "CSG.h"
+#include <iostream>
 
 CSG::CSG(std::shared_ptr<Geometry> left, std::shared_ptr<Geometry> right, SetOperation op) :
 left(left), right(right), op(op) {};
@@ -31,9 +32,14 @@ int32_t CSG::rayIntersect(Collision* hit, Ray ray, Interval& range) {
             combined.range = intersectInterval(leftHit.range, rightHit.range);
             break;
         // TODO make difference actually work
+        // Additional work needs to be done on calculating surface normals
         case difference:
             if (leftStatus < 0) return -1;
             combined.range = differenceInterval(leftHit.range, rightHit.range);
+            if (combined.range.empty()) return -1;
+            std::cout << "Left interval: " << leftHit.range.min << " " << leftHit.range.max << std::endl;
+            std::cout << "Right interval: " << rightHit.range.min << " " << rightHit.range.max << std::endl;
+            std::cout << "Difference interval: " << combined.range.min << " " << combined.range.max << std::endl;
             break;
     }    
     double t = (combined.range.min > 0) ? combined.range.min : combined.range.max;
