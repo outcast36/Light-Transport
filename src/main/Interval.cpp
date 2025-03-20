@@ -1,5 +1,6 @@
 #include <limits>
 #include <algorithm>
+#include <iostream>
 #include "Interval.h"
 
 // Empty constructor creates empty interval
@@ -38,6 +39,7 @@ Interval intersectInterval(Interval& a, Interval& b) {
 
 // A - B
 Interval differenceInterval(Interval& a, Interval& b) {
+    if (a.empty() || b.empty() || intersectInterval(a, b).empty()) return a; 
     // Return empty interval when A interval is equal to or inside of B interval
     if (a.min >= b.min && a.max <= b.max) return Interval();
     // Difference interval A - B is completely to the right of B interval
