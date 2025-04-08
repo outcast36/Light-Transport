@@ -10,6 +10,13 @@
 
 enum SetOperation{unions, intersect, difference};
 
+// Wrap intersection intervals for CSG objects
+struct Span {
+    Collision& entry;
+    Collision& exit;
+    Interval& range;
+};
+
 // Store a single node of the CSG tree with two objects to combine
 class CSG : public Geometry {
     public:
@@ -23,6 +30,3 @@ class CSG : public Geometry {
 };
 
 #endif /* CSG_H */
-
-//Structure of arbitrary csg object
-//CSG( CSG(sphere, cube, intersect), CSG( CSG( cylinder, cylinder, unions), cylinder, unions), difference)
