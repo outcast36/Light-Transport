@@ -11,7 +11,8 @@
 // Abstract shape class, shapes and surfaces must be able to be intersected by a ray
 class Geometry {
     public:
-        virtual int32_t rayIntersect(Collision* hit, Ray ray, Interval& range)=0; // pure virtual function
+        virtual int32_t rayIntersect(Collision* hit, Ray ray, Interval& range)=0; // pure virtual
+        bool inverted; // turn inside out for CSG difference and intersection operations
 };
 
 // Class for list of geometric objects, wrap the closest intersection method as a 
