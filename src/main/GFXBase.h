@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "Interval.h"
 
+// Data structure for a single point of intersection with a surface
 struct Collision {
     vec3<double> intersection;
     vec3<double> surface_normal;
