@@ -7,7 +7,6 @@
 struct Collision {
     vec3<double> intersection;
     vec3<double> surface_normal;
-    Interval range;
     double t;
 };
 
