@@ -23,3 +23,8 @@ To run:
 # Implemented
 * Support for HDR rendering using PFM image format
 * Geometric primitives: Spheres, Cones, Cylinders, Planes, Triangles
+
+# Future Work
+* Rework geometry library into templates since primitive do not need dynamic polymorphism from virtual functions
+* Organize geometry library codebase
+* Expand list of primitives 
