@@ -11,6 +11,12 @@ struct Collision {
     double t;
 };
 
+// Structure for a single intersection interval with an object
+struct Span {
+    Collision entry;
+    Collision exit;
+};
+
 struct Ray {
     vec3<double> origin;
     vec3<double> direction;
