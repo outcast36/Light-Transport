@@ -9,3 +9,5 @@ imgs/
 
 #Build tools
 Makefile
+*.mk
+
