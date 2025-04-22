@@ -14,7 +14,6 @@ class Interval {
 };
 
 // Set operations for combining CSG objects, 
-// Assumes that intervals a and b are partially overlapping
 Interval unionInterval(Interval& a, Interval& b);
 Interval intersectInterval(Interval& a, Interval& b);
 Interval differenceInterval(Interval& a, Interval& b);

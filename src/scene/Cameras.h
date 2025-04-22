@@ -2,8 +2,8 @@
 #define CAMERAS_H
 
 #include <cstdint>
-#include "GFXBase.h"
-#include "vec3.h"
+#include "object/GFXBase.h"
+#include "math/vec3.h"
 
 class Camera {
     protected:
@@ -22,7 +22,7 @@ class Camera {
 class PerspectiveCamera : public Camera {
     public: 
         PerspectiveCamera(uint32_t width, uint32_t height); // empty constructor makes a canonical camera
-        Ray pixelToRay(int32_t i, int32_t j); // inherited method is public
+        Ray pixelToRay(int32_t i, int32_t j); 
     private: 
         // this angle implicitly defines the viewport dimensions along with aspect ratio
         double vfov; // given in radians

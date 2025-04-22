@@ -1,8 +1,8 @@
 #ifndef GFXBASE_H
 #define GFXBASE_H
 
-#include "vec3.h"
-#include "Interval.h"
+#include "math/vec3.h"
+#include "math/Interval.h"
 
 // Data structure for a single point of intersection with a surface
 struct Collision {
@@ -15,6 +15,7 @@ struct Collision {
 struct Span {
     Collision entry;
     Collision exit;
+    Span* next; // linked list chaining multiple intersection intervals together
 };
 
 struct Ray {

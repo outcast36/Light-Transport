@@ -1,7 +1,7 @@
 #ifndef COLORS_H
 #define COLORS_H
 
-#include "vec3.h"
+#include "math/vec3.h"
 
 vec3<float> lime(0.33, 0.97, 0.26);
 vec3<float> white(1,1,1);

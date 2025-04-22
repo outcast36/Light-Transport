@@ -1,14 +1,10 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include <cstdint>
 #include <cmath>
-#include "Geometry.h"
-#include "GFXBase.h"
-#include "vec3.h"
-#include "Interval.h"
+#include "BaseObject.h"
 
-class Sphere : public Geometry {
+class Sphere : public BaseObject {
     public:
         Sphere(vec3<double>& center, double radius);
         int32_t rayIntersect(Span* hit, Ray ray, Interval range);

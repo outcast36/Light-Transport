@@ -1,45 +1,32 @@
 #include "CSG.h"
-#include <iostream>
 
-CSG::CSG(std::shared_ptr<Geometry> left, std::shared_ptr<Geometry> right, SetOperation op) :
+CSG::CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right, SetOperation op) :
 left(left), right(right), op(op) {};
 
 // Implicit post order traversal of binary tree representing complex CSG object
-int32_t CSG::rayIntersect(Collision* hit, Ray ray, Interval& range) {
-    Collision leftHit, rightHit, combined;
-    int32_t leftStatus, rightStatus;
-    leftStatus = this->left->rayIntersect(&leftHit, ray, range);
-    rightStatus = this->right->rayIntersect(&rightHit, ray, range);
-
-    // Ray intersects neither object
+int32_t CSG::rayIntersect(Span* hit, Ray ray, Interval range) {
+    Span leftHit, rightHit;
+    int32_t leftStatus = this->left->rayIntersect(&leftHit, ray, range);
+    int32_t rightStatus = this->right->rayIntersect(&rightHit, ray, range);
+    // Ray intersects neither object -- zero spans created
     if (leftStatus < 0 && rightStatus < 0) return -1; 
     // Ray intersects one or both objects -- apply boolean operation
     switch (this->op) {
         case unions:
-            // Ray intersects only one object
-            if (leftStatus < 0) {
-                *hit = rightHit;
-                return 0;
-            } 
-            else if (rightStatus < 0) {
-                *hit = leftHit;
-                return 0;
-            }
-            combined.range = unionInterval(leftHit.range, rightHit.range);
             break;
         case intersect:
             if (leftStatus < 0 || rightStatus < 0) return -1;
             combined.range = intersectInterval(leftHit.range, rightHit.range);
             break;
-        // TODO make difference actually work
-        // Additional work needs to be done on calculating surface normals
         case difference:
             if (leftStatus < 0) return -1;
+            if (rightStatus > 0) rightHit.surface_normal = -rightHit.surface_normal;
+            // if right status is hit:
+            // turn right operand inside out (hit.surface_normal *= -1)
+            // combine with intersection?  (de morgan)
             combined.range = differenceInterval(leftHit.range, rightHit.range);
             if (combined.range.empty()) return -1;
-            std::cout << "Left interval: " << leftHit.range.min << " " << leftHit.range.max << std::endl;
-            std::cout << "Right interval: " << rightHit.range.min << " " << rightHit.range.max << std::endl;
-            std::cout << "Difference interval: " << combined.range.min << " " << combined.range.max << std::endl;
+            
             break;
     }    
     double t = (combined.range.min > 0) ? combined.range.min : combined.range.max;
