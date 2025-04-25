@@ -10,6 +10,12 @@ struct Collision {
     double t;
 };
 
+// Data structure for storing surface data about a single intersection interval
+struct IntervalCollision {
+    Collision entry;
+    Collision exit;
+};
+
 struct Ray {
     vec3<double> origin;
     vec3<double> direction;
