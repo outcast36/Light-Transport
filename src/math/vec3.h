@@ -2,6 +2,8 @@
 #define VEC3_H
 
 template <typename T> class vec3 {
+    private:
+        T v[3];
     public:
         //Constructors
         vec3();
@@ -23,9 +25,6 @@ template <typename T> class vec3 {
 
         T length() const;
         T lengthSquared() const;
-        
-    private:
-        T v[3];
 };
 
 //Commutative multiplication by scalar
