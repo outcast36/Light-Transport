@@ -2,29 +2,28 @@
 #define VEC3_H
 
 template <typename T> class vec3 {
-    private:
-        T v[3];
-    public:
-        //Constructors
-        vec3();
-        vec3(T c1, T c2, T c3);
+ public:
+  //Constructors
+  vec3();
+  vec3(T c1, T c2, T c3);
 
-        //Access elements
-        T x() const;
-        T y() const;
-        T z() const;
+  //Access elements
+  T x() const;
+  T y() const;
+  T z() const;
 
-        //Vector Operations
-        vec3 operator-() const; // returns a new vector
-        vec3& operator+=(const vec3& w);
-        vec3& operator*=(T t);
-        vec3& operator/=(T t);
+  //Vector Operations
+  vec3 operator-() const; // returns a new vector
+  vec3& operator+=(const vec3& w);
+  vec3& operator*=(T t);
+  vec3& operator/=(T t);
+  T operator[](int i) const; // called internally for some operations with const vector e.g. in += 
+  T& operator[](int i); // modifies vector, used for operations *= and /=
+  T length() const;
+  T lengthSquared() const;
 
-        T operator[](int i) const; // called internally for some operations with const vector e.g. in += 
-        T& operator[](int i); // modifies vector, used for operations *= and /=
-
-        T length() const;
-        T lengthSquared() const;
+ private:
+  T v[3];
 };
 
 //Commutative multiplication by scalar
