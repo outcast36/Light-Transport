@@ -11,7 +11,7 @@ struct Collision {
 };
 
 // Data structure for storing surface data about a single intersection interval
-struct IntervalCollision {
+struct Span {
     Collision entry;
     Collision exit;
 };
