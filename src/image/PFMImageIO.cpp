@@ -5,13 +5,11 @@
 #include <string.h>
 #include "PFMImageIO.h"
 
-PFMImage::PFMImage() {};
-
-PFMImage::PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB) : 
-img_width(img_width),
-img_height(img_height),
-pixel_max(pixel_max),
-RGB(RGB) {
+PFMImage::PFMImage(uint32_t img_width, uint32_t img_height, float pixel_max, bool RGB) 
+    : img_width(img_width),
+      img_height(img_height),
+      pixel_max(pixel_max),
+      RGB(RGB) {
     pixelMap pixels(img_height, std::vector<rgb32>(img_width));
     this->img_array = std::make_unique<pixelMap>(pixels);
 }

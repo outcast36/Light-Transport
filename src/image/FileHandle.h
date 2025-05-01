@@ -6,7 +6,7 @@
 
 class FileHandle {
  public:
-  FileHandle(const char * file_name, const char * mode);
+  FileHandle(const char *file_name, const char *mode);
   ~FileHandle();
   // Delete these two so destructor doesn't try to release the same resource twice
   // https://bajamircea.github.io/coding/cpp/2015/03/17/classic-raii.html

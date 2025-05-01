@@ -3,7 +3,7 @@
 #include "FileHandle.h"
 
 // Acquire file on construction
-FileHandle::FileHandle(const char * file_name, const char * mode) {
+FileHandle::FileHandle(const char *file_name, const char *mode) {
     f = fopen(file_name, mode);
     if (!f) throw new std::runtime_error("Failed to open file");
 }
