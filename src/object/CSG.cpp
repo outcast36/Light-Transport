@@ -1,43 +1,43 @@
 #include "CSG.h"
 
-CSG::CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right, SetOperation op) :
-left(left), right(right), op(op) {};
+CSG::CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right) 
+    : left(left), right(right) {};
 
-// Implicit post order traversal of binary tree representing complex CSG object
-int32_t CSG::rayIntersect(Span* hit, Ray ray, Interval range) {
-    Span leftHit, rightHit;
-    int32_t leftStatus = this->left->rayIntersect(&leftHit, ray, range);
-    int32_t rightStatus = this->right->rayIntersect(&rightHit, ray, range);
-    // Ray intersects neither object -- zero spans created
-    if (leftStatus < 0 && rightStatus < 0) return -1; 
-    // Ray intersects one or both objects -- apply boolean operation
-    switch (this->op) {
-        case unions:
-            break;
-        case intersect:
-            if (leftStatus < 0 || rightStatus < 0) return -1;
-            combined.range = intersectInterval(leftHit.range, rightHit.range);
-            break;
-        case difference:
-            if (leftStatus < 0) return -1;
-            if (rightStatus > 0) rightHit.surface_normal = -rightHit.surface_normal;
-            // if right status is hit:
-            // turn right operand inside out (hit.surface_normal *= -1)
-            // combine with intersection?  (de morgan)
-            combined.range = differenceInterval(leftHit.range, rightHit.range);
-            if (combined.range.empty()) return -1;
-            
-            break;
-    }    
-    double t = (combined.range.min > 0) ? combined.range.min : combined.range.max;
-    if (!range.contains(t)) return -1;
-    combined.t = t;
-    vec3<double> intersection = ray.origin + (t * ray.direction);
-    combined.intersection = intersection;
-    vec3<double> surface_normal;
-    if (t == leftHit.range.min || t == leftHit.range.max) surface_normal = leftHit.surface_normal;
-    else surface_normal = rightHit.surface_normal;
-    combined.surface_normal = surface_normal;
-    *hit = combined;
-    return 0;
+std::optional<IntervalSet> Unions::rayIntersect(Ray& ray, Interval range) {
+    auto leftIntervals = left->rayIntersect(ray, range);
+    auto rightIntervals = right->rayIntersect(ray, range);
+    // Neither child node is intersected
+    if (!leftIntervals && !rightIntervals) {
+        return std::nullopt; 
+    }
+    else {
+        (*leftIntervals).join(*rightIntervals);
+        return leftIntervals;
+    }
+}
+
+std::optional<IntervalSet> Intersect::rayIntersect(Ray& ray, Interval range) {
+    auto left_intervals = left->rayIntersect(ray, range);
+    auto right_intervals = right->rayIntersect(ray, range);
+    // One or both child nodes doesn't intersect
+    if (!left_intervals || !right_intervals) {
+        return std::nullopt; 
+    }
+    else {
+        (*left_intervals).intersection(*right_intervals);
+    }
+}
+
+std::optional<IntervalSet> Difference::rayIntersect(Ray& ray, Interval range) {
+    auto left_intervals = left->rayIntersect(ray, range);
+    auto right_intervals = right->rayIntersect(ray, range);
+    // Miss left node -- the minuend
+    if (!left_intervals) {
+        return std::nullopt;
+    }
+    else {
+        // Check for intersection with subtrahend to perform subtraction
+        if (right_intervals) (*left_intervals).subtract(*right_intervals);
+        return left_intervals;
+    }
 }
