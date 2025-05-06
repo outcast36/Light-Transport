@@ -8,7 +8,7 @@
 // Abstract class for primitives and CSG objects which require full intersection data
 class RaycastTarget {
     public:
-        virtual int32_t rayIntersect(Collision* hit, Ray ray, Interval range)=0; // pure virtual
+        virtual std::optional<Collision> rayIntersect(Ray& ray, Interval range)=0; // pure virtual
         virtual ~RaycastTarget() = default;
 };
 
