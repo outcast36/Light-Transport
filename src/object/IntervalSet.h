@@ -15,8 +15,6 @@
 // sorted order based on the lower bound values of their intervals.  
 class IntervalSet {
  public:
- // operator++ does no oob checks
- // operator* checks oob 
   class Iterator {
    public: 
     // Iterator type definitions 
