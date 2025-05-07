@@ -2,6 +2,7 @@
 #define RAYCASTTARGET_H
 
 #include <cstdint>
+#include <optional>
 #include "object/GFXBase.h"
 #include "math/Interval.h"
 
