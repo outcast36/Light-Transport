@@ -4,17 +4,19 @@
 #include <cmath>
 #include <vector>
 #include <memory>
-#include "object/BaseObject.h"
+#include "scene/RaycastTarget.h"
 #include "object/GFXBase.h"
+#include "object/BaseObject.h"
 
-// List of geometric objects, wrap the closest intersection method as a rayIntersect implementation 
-class Scene : public BaseObject {
+// Aggregate a collection of objects -- interface only cares about a single intersection point
+class Scene : public RaycastTarget {
+    private: 
+        std::vector<std::shared_ptr<BaseObject>> geometry_list; // list of objects in the scene
     public:
         Scene();
-        int32_t rayIntersect(Span* hit, Ray ray, Interval range);
+        std::optional<Collision> rayIntersect(Ray& ray, Interval range) override;
         void add(std::shared_ptr<BaseObject>); // push_back wrapper
         void clearScene();
-        std::vector<std::shared_ptr<BaseObject>> geometry_list; // list of objects in the scene
 };
 
 
