@@ -7,6 +7,9 @@ src/main/.vscode
 # Images used for testing
 imgs/
 
+# Build directory
+build/
+
 #Build tools
 Makefile
 *.mk
