@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 #include "scene/RaycastTarget.h"
-#include "object/GFXBase.h"
 #include "object/BaseObject.h"
 
 // Aggregate a collection of objects -- interface only cares about a single intersection point
