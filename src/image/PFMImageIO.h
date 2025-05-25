@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include "FileHandle.h"
-#include "math/vec3.h"
+#include "vec3.h"
 
 using rgb32 = vec3<float>;
 using pixelMap = std::vector<std::vector<rgb32>>; // switch to std::array
