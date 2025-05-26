@@ -4,9 +4,8 @@
 #include <memory>
 #include <vector>
 #include <array>
-#include "math/Interval.h"
-#include "object/Span.h"
-#include "object/GFXBase.h"
+#include "Interval.h"
+#include "Span.h"
 
 // IntervalSet -- Structure for intersection intervals for a single ray intersection query 
 // Invariant: For any intersection query that requires storage of three of more intersection intervals
@@ -18,7 +17,7 @@ class IntervalSet {
   class Iterator {
    public: 
     // Iterator type definitions 
-    using iterator_category = std::forward_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
     using value_type = Span;
     using difference_type = std::ptrdiff_t;
     using pointer = Span*;
@@ -30,12 +29,26 @@ class IntervalSet {
         if (idx < 2) {
             return set->inlineIntervals[idx];
         } 
-        else return (*set->extraIntervals)[idx-2];
+        else return set->extraIntervals[idx-2];
     }
     pointer operator->() { return &(**this); }
     Iterator& operator++() {
         ++idx;
         return *this;
+    }
+    Iterator operator++(int) {
+        Iterator res = *this;
+        ++(*this);
+        return res;
+    }
+    Iterator& operator--() {
+        --idx;
+        return *this;
+    }
+    Iterator operator--(int) {
+        Iterator res = *this;
+        --(*this);
+        return res;
     }
     bool operator==(const Iterator& other) const {
         return set == other.set && idx == other.idx;
@@ -53,16 +66,27 @@ class IntervalSet {
   IntervalSet(const std::array<Span,2>& inlines);
   static IntervalSet empty(); 
   static IntervalSet fromSingleSpan(Span& primitive);
+  std::string printIntervalSet();
+  bool isEmpty() { return intervalCount == 0; }
+  void push_back(Span& new_interval);
+  void clear();
   void join(IntervalSet& other); // union operation
   void intersection(IntervalSet& other); // intersection operation
   void subtract(IntervalSet& other); // difference operation
   Iterator begin() { return Iterator(this,0); }
   Iterator end() { return Iterator(this, intervalCount); } // Don't dereference end()
+  Iterator back() {
+    if (!isEmpty()) return Iterator(this, intervalCount-1);
+    else return end();
+  }
 
  private: 
   std::array<Span, 2> inlineIntervals; // common case of one or two intervals
-  std::shared_ptr<std::vector<Span>> extraIntervals; // shared pointer for lazy initialization
+  std::vector<Span> extraIntervals; // overflow for more than two intervals
   size_t intervalCount; // if this is greater than one, the span contains disjoint intervals
 };
 
 #endif /* INTERVALSET_H */
+
+
+// TODO add some sort of addInterval function so join() is easy
