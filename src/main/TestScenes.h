@@ -3,10 +3,10 @@
 
 #include <cmath>
 #include <memory>
-#include "object/Sphere.h"
-#include "scene/Scene.h"
-#include "math/vec3.h"
-#include "math/Interval.h"
+#include "Sphere.h"
+#include "Scene.h"
+#include "vec3.h"
+#include "Interval.h"
 //#include "CSG.h"
 
 Scene scene1();

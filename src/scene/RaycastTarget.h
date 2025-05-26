@@ -3,8 +3,8 @@
 
 #include <cstdint>
 #include <optional>
-#include "object/GFXBase.h"
-#include "math/Interval.h"
+#include "GFXBase.h"
+#include "Interval.h"
 
 // Abstract class for primitives and CSG objects which require full intersection data
 class RaycastTarget {

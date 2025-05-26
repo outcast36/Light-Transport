@@ -2,8 +2,7 @@
 #define CAMERAS_H
 
 #include <cstdint>
-#include "object/GFXBase.h"
-#include "math/vec3.h"
+#include "GFXBase.h"
 
 class Camera {
     protected:

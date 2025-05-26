@@ -3,9 +3,9 @@
 
 #include <cstdint>
 #include <optional>
-#include "object/GFXBase.h"
-#include "math/Interval.h"
-#include "object/IntervalSet.h"
+#include "GFXBase.h"
+#include "Interval.h"
+#include "IntervalSet.h"
 
 // Abstract class for primitives and CSG objects which require full intersection data
 class BaseObject {

@@ -2,7 +2,7 @@
 #define CSG_H
 
 #include <memory>
-#include "object/BaseObject.h"
+#include "BaseObject.h"
 
 // Store a single node of the CSG tree with two objects to combine
 class CSG : public BaseObject {

@@ -4,8 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <memory>
-#include "scene/RaycastTarget.h"
-#include "object/BaseObject.h"
+#include "RaycastTarget.h"
+#include "BaseObject.h"
 
 // Aggregate a collection of objects -- interface only cares about a single intersection point
 class Scene : public RaycastTarget {
