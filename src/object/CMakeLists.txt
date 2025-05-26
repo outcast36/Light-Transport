@@ -1,3 +1,5 @@
+add_library(object)
+
 target_sources(object
     PRIVATE
         CSG.cpp
@@ -5,4 +7,4 @@ target_sources(object
 )
 
 target_include_directories(object PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(render object)
+target_link_libraries(object math_utils)
