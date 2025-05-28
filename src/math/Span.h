@@ -22,8 +22,7 @@ class Span {
   Collision exit;
 };
 
-// Merge overlapping intervals into a single span by updating the exit object
-// to the one that has the larger ray parameter (t)
+// Merge overlapping intervals into a single span 
 Span mergeOverlap(const Span& a, const Span& b);
 
 #endif /* SPAN_H */
