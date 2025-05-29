@@ -8,15 +8,17 @@ struct Collision {
     vec3<double> intersection;
     vec3<double> surface_normal;
     double t;
-    bool operator<(const Collision& other) const { return t < other.t; }
+    bool operator<(const Collision& other) const;
 };
+
+bool operator==(const Collision& p1, const Collision& p2); 
 
 struct Ray {
     vec3<double> origin;
     vec3<double> direction;
 };
 
-using Collision = struct Collision;
 using Ray = struct Ray;
+using Collision = struct Collision;
 
 #endif /* GFXBASE_H */
