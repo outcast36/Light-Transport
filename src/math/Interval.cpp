@@ -4,21 +4,21 @@
 
 // Empty constructor creates empty interval
 Interval::Interval() : min(std::numeric_limits<double>::max()), max(-std::numeric_limits<double>::max()) {};
-Interval::Interval(double min, double max) : min(min), max(max) {};
+Interval::Interval(double start, double end) : start(start), end(end) {};
 double Interval::size() const {
-    return this->max - this->min;
+    return this->end - this->start;
 };
 
 bool Interval::empty() const {
-    return this->min > this->max;
+    return this->start > this->end;
 }
 
-// Check if t in [min, max]
+// Check if t in [start, end]
 bool Interval::contains(double t) const {
-    return this->min <= t && t <= this->max;
+    return this->start <= t && t <= this->end;
 }; 
 
-// Check if t in (min, max)
+// Check if t in (start, end)
 bool Interval::exclusiveContains(double t) const {
-    return this->min < t && t < this->max;
+    return this->start < t && t < this->end;
 };
