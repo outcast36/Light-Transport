@@ -7,7 +7,7 @@
 class Sphere : public BaseObject {
  public:
   Sphere(vec3<double>& center, double radius);
-  std::optional<IntervalSet> rayIntersect(Ray& ray, Interval range) override;
+  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
  
  private: 
   vec3<double> center;

@@ -2,7 +2,7 @@
 
 Sphere::Sphere(vec3<double>& center, double radius) : center(center), radius(radius) {};
 
-std::optional<IntervalSet> Sphere::rayIntersect(Ray& ray, Interval range) {
+std::optional<std::vector<Span>> Sphere::rayIntersect(Ray& ray) {
     vec3<double> center_to_origin = ray.origin - this->center;
     double radius_squared = this->radius * this->radius;
     double inverse_radius = 1/this->radius;
@@ -15,11 +15,7 @@ std::optional<IntervalSet> Sphere::rayIntersect(Ray& ray, Interval range) {
     Collision entry, exit;
     entry.t = ((-half_b) - sqrt(discriminant)) * inverse_a; // t0
     exit.t = ((-half_b) + sqrt(discriminant)) * inverse_a; // t1
-    if (!range.contains(entry.t) && !range.contains(exit.t)) return std::nullopt; // valid quadratic solutions, but neither is in [tmin, tmax]
-    entry.intersection = ray.origin + (entry.t * ray.direction);
-    exit.intersection = ray.origin + (exit.t * ray.direction);
-    entry.surface_normal = (entry.intersection - this->center) * inverse_radius;
-    exit.surface_normal = (exit.intersection - this->center) * inverse_radius;
-    Span res{entry, exit};
-    return IntervalSet::fromSingleSpan(res);
+    Span res_span{entry, exit};
+    std::vector<Span> res(1, res_span);
+    return res;
 }
