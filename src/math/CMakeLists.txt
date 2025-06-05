@@ -2,8 +2,8 @@ add_library(math_utils)
 
 target_sources(math_utils
     PRIVATE
+        GFXBase.cpp
         Interval.cpp
-        IntervalSet.cpp
         Span.cpp
         vec3.cpp
 )
