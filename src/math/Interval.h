@@ -4,13 +4,13 @@
 class Interval {
  public: 
   Interval();
-  Interval(double min, double max);
+  Interval(double start, double end);
   double size() const;
   bool empty() const; 
-  bool contains(double t) const; // check if t in [min, max]
-  bool exclusiveContains(double t) const; // check if t in (min, max)
-  double min;
-  double max;
+  bool contains(double t) const; // check if t in [start, end]
+  bool exclusiveContains(double t) const; // check if t in (start, end)
+  double start;
+  double end;
 };
 
 #endif /* INTERVAL_H */
