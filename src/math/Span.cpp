@@ -24,6 +24,10 @@ Collision Span:: getExit() const { return exit; }
 void Span::setExit(const Collision& updated) { exit = updated; }
 void Span::setEntry(const Collision& updated) { entry = updated; }
 
+Interval Span::asInterval() {
+    return Interval(entry.t, exit.t);
+}
+
 Span mergeOverlap(const Span& a, const Span& b) {
     Collision entry = b.getEntry();
     if (closerToOrigin(a.getEntry(), entry)) entry = a.getEntry();
