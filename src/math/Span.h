@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <string> 
 #include "GFXBase.h"
+#include "Interval.h"
 
 // Data structure for storing surface data about a single intersection interval
 // Invariant: entry.t <= exit.t 
@@ -15,7 +16,8 @@ class Span {
   Collision getEntry() const; 
   Collision getExit() const; 
   void setExit(const Collision& updated); 
-  void setEntry(const Collision& updated); 
+  void setEntry(const Collision& updated);
+  Interval asInterval();
 
  private: 
   Collision entry;

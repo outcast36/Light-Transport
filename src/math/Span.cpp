@@ -25,7 +25,9 @@ void Span::setExit(const Collision& updated) { exit = updated; }
 void Span::setEntry(const Collision& updated) { entry = updated; }
 
 Span mergeOverlap(const Span& a, const Span& b) {
-    Collision entry = std::min(a.getEntry(), b.getEntry());
-    Collision exit = std::max(a.getExit(), b.getExit());
+    Collision entry = b.getEntry();
+    if (closerToOrigin(a.getEntry(), entry)) entry = a.getEntry();
+    Collision exit = b.getExit();
+    if (closerToOrigin(exit, a.getExit())) exit = a.getExit();
     return Span(entry, exit);
 }
