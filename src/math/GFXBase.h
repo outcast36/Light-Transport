@@ -23,4 +23,9 @@ using Collision = struct Collision;
 // collision p1 has a ray parameter (t) less than that of p2 and false otherwise. 
 bool closerToOrigin(const Collision& p1, const Collision& p2);
 
+// Less than or equal to operation between two collisions within a single
+// ray intersection query. Used to generate correct interval lists when
+// combining with boolean operations for use with CSG. 
+bool closerOrTouching(const Collision& p1, const Collision& p2);
+
 #endif /* GFXBASE_H */
