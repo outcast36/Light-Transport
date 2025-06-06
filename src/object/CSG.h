@@ -9,25 +9,30 @@ class CSG : public BaseObject {
  public:
   CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right);
   virtual ~CSG() = default; 
-  virtual std::optional<IntervalSet> rayIntersect(Ray& ray, Interval range)=0;
+  virtual std::optional<std::vector<Span>> rayIntersect(Ray& ray)=0;
  protected:
   std::shared_ptr<BaseObject> left;
   std::shared_ptr<BaseObject> right;
 };
 
+std::string printIntervalList(std::vector<Span>& items);
+std::vector<Span> join(std::vector<Span>& a, std::vector<Span>& b); // union operation
+std::vector<Span> intersection(std::vector<Span>& a, std::vector<Span>& b); // intersection operation
+std::vector<Span> subtract(std::vector<Span>& a, std::vector<Span>& b); // difference operation
+
 class Unions : public CSG {
  public: 
-  std::optional<IntervalSet> rayIntersect(Ray& ray, Interval range) override;
+  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
 };
 
 class Intersect : public CSG {
  public: 
-  std::optional<IntervalSet> rayIntersect(Ray& ray, Interval range) override;
+  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
 };
 
 class Difference : public CSG {
  public:
-  std::optional<IntervalSet> rayIntersect(Ray& ray, Interval range) override;
+  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
 };
 
 #endif /* CSG_H */
