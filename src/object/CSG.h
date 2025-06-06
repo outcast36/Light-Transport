@@ -16,22 +16,13 @@ class CSG : public BaseObject {
 };
 
 std::string printIntervalList(std::vector<Span>& items);
-std::vector<Span> join(std::vector<Span>& a, std::vector<Span>& b); // union operation
-std::vector<Span> intersection(std::vector<Span>& a, std::vector<Span>& b); // intersection operation
-std::vector<Span> subtract(std::vector<Span>& a, std::vector<Span>& b); // difference operation
+
+// Union operation
+std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b)
+std::vector<Span> mergeIntervals(std::vector<Span>& intervals);
 
 class Unions : public CSG {
  public: 
-  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
-};
-
-class Intersect : public CSG {
- public: 
-  std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
-};
-
-class Difference : public CSG {
- public:
   std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
 };
 
