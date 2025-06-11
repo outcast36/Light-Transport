@@ -18,7 +18,7 @@ class CSG : public BaseObject {
 std::string printIntervalList(std::vector<Span>& items);
 
 // Union operation
-std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b)
+std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b);
 std::vector<Span> mergeIntervals(std::vector<Span>& intervals);
 
 class Unions : public CSG {

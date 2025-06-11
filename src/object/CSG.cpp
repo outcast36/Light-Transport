@@ -18,7 +18,7 @@ std::string printIntervalList(std::vector<Span>& items) {
 // pairwise disjoint. This function merges A and B into a single collection of
 // intervals, which are sorted by start, but not necessarily pairwise disjoint. 
 std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b) {
-    int8_t i = 0, j = 0;
+    uint8_t i = 0, j = 0;
     std::vector<Span> result;
     while (i < a.size() && j < b.size()) {
         Collision left_start = a[i].getEntry();
@@ -34,10 +34,10 @@ std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b)
 
 // Assume intervals is a collection of intervals which are sorted by start
 std::vector<Span> mergeIntervals(std::vector<Span>& intervals) {
-    int8_t i = 0;
+    u_int8_t i = 0;
     std::vector<Span> result;
     while (i < intervals.size()) {
-        int8_t j = i + 1;
+        uint8_t j = i + 1;
         while (j < intervals.size() && closerOrTouching(intervals[j].getEntry(), intervals[i].getExit())) {
             intervals[i] = mergeOverlap(intervals[i], intervals[j]);
             ++j;
@@ -49,14 +49,14 @@ std::vector<Span> mergeIntervals(std::vector<Span>& intervals) {
 }
 
 std::optional<std::vector<Span>> Unions::rayIntersect(Ray& ray) {
-    auto leftIntervals = left->rayIntersect(ray, range);
-    auto rightIntervals = right->rayIntersect(ray, range);
+    auto leftIntervals = left->rayIntersect(ray);
+    auto rightIntervals = right->rayIntersect(ray);
     // Neither child node is intersected
     if (!leftIntervals && !rightIntervals) {
         return std::nullopt; 
     }
     else {
-        auto merged = mergeIntervalLists(leftIntervals, rightIntervals);
+        auto merged = mergeIntervalLists(*leftIntervals, *rightIntervals);
         return mergeIntervals(merged);
     }
 }
