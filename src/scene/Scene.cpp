@@ -3,19 +3,35 @@
 Scene::Scene() {};
 
 // currently without an acceleration structure -- linear search through objects 
-int32_t Scene::rayIntersect(Span* hit, Ray ray, Interval range) {
-    Span cur; 
-    double closest_t = range.max;
-    int32_t res=-1; // return -1 on no intersection
-    for (const auto& surface : this->geometry_list) {
-        // at least one of entry and exit points is in [tmin, closest_so_far]
-        if (surface->rayIntersect(&cur, ray, Interval(range.min, closest_t))==0) {
-            res = 0; // hit any object with t in [tmin, tmax]
-            if (cur.entry.t > 0 && cur.entry.t < closest_t) hit->entry = cur.entry;
-            else if (cur.exit.t > 0 && cur.exit.t < closest_t) hit->entry = cur.exit;
+
+// Assumption: This can always return the first interval in an interval set
+// since primitives and composite CSG objects will only return intervals
+// in [tmin, tmax] interval
+std::optional<Collision> Scene::rayIntersect(Ray& ray, Interval range) {
+    Collision cur_closest;
+    double closest_t = range.end;
+    bool hit_anything = false;
+    for (const auto& surface : geometry_list) {
+        auto result = surface->rayIntersect(ray);
+        if (result != std::nullopt) {
+            auto intervals = (*result);
+            uint8_t i = 0;
+            while (i < intervals.size()) {
+                if (range.exclusiveContains(intervals[i].getEntry().t)) {
+                    cur_closest = intervals[i].getEntry();
+                    hit_anything = true;
+                } 
+                else if (range.exclusiveContains(intervals[i].getExit().t)) {
+                    cur_closest = intervals[i].getExit();
+                    hit_anything = true;
+                } 
+                ++i;
+            }
         }
+        range.end = closest_t;
     }
-    return res;
+    if (hit_anything) return cur_closest;
+    else return std::nullopt;
 }
 
 void Scene::add(std::shared_ptr<BaseObject> item) {
