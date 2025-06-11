@@ -14,7 +14,11 @@ std::optional<std::vector<Span>> Sphere::rayIntersect(Ray& ray) {
     if (discriminant < 0) return std::nullopt; // no intersection
     Collision entry, exit;
     entry.t = ((-half_b) - sqrt(discriminant)) * inverse_a; // t0
+    entry.intersection = ray.origin + (entry.t * ray.direction);
+    entry.surface_normal = (entry.intersection - center) * inverse_radius;
     exit.t = ((-half_b) + sqrt(discriminant)) * inverse_a; // t1
+    exit.intersection = ray.origin + (exit.t * ray.direction);
+    exit.surface_normal = (exit.intersection - center) * inverse_radius;
     Span res_span{entry, exit};
     std::vector<Span> res(1, res_span);
     return res;
