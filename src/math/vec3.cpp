@@ -38,6 +38,9 @@ template <typename T> vec3<T>& vec3<T>::operator/=(T t) {
     return *this *= (1/t);
 }
 
+/* ********************************************************** //
+// These might not be safe since vec3 is wrapping a C style array
+// and these operations are not doing any bounds checks on the given index
 template <typename T> T vec3<T>::operator[](int i) const {
     return v[i];
 }
@@ -45,6 +48,7 @@ template <typename T> T vec3<T>::operator[](int i) const {
 template <typename T> T& vec3<T>::operator[](int i) {
     return v[i];
 }
+// ********************************************************** */
 
 template <typename T> T vec3<T>::length() const {
     return sqrt(lengthSquared());
@@ -92,6 +96,10 @@ template <typename T> vec3<T> unitVector(const vec3<T>& v) {
     return v / v.length();
 }
 
+template <typename T> bool operator==(const vec3<T>& u, const vec3<T>& v) {
+    return (u.x() == v.x()) && (u.y() == v.y()) && (u.z() == v.z());
+}
+
 
 // Explicit template class instantiations
 template class vec3<double>; 
@@ -107,6 +115,7 @@ template vec3<float> operator/(const vec3<float>& v, float t);
 template vec3<float> cross(const vec3<float>& v, const vec3<float>& w);
 template float dot(const vec3<float>& v, const vec3<float>& w);
 template vec3<float> unitVector(const vec3<float>& v);
+template bool operator==(const vec3<float>& u, const vec3<float>& v);
 
 template vec3<double> operator*(const vec3<double>& v, double t);
 template vec3<double> operator*(double t, const vec3<double>& v);
@@ -117,3 +126,4 @@ template vec3<double> operator/(const vec3<double>& v, double t);
 template vec3<double> cross(const vec3<double>& v, const vec3<double>& w);
 template double dot(const vec3<double>& v, const vec3<double>& w);
 template vec3<double> unitVector(const vec3<double>& v);
+template bool operator==(const vec3<double>& u, const vec3<double>& v);
