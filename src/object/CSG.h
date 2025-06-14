@@ -23,6 +23,7 @@ std::vector<Span> mergeIntervals(std::vector<Span>& intervals);
 
 class Unions : public CSG {
  public: 
+  Unions(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right);
   std::optional<std::vector<Span>> rayIntersect(Ray& ray) override;
 };
 

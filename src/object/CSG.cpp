@@ -1,7 +1,11 @@
+#include <iostream>
 #include "CSG.h"
 
 CSG::CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right) 
-    : left(left), right(right) {};
+    : left(left), right(right) {}
+
+Unions::Unions(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right) 
+    : CSG(left, right) {}
 
 std::string printIntervalList(std::vector<Span>& items) {
     std::string output="";
@@ -55,6 +59,8 @@ std::optional<std::vector<Span>> Unions::rayIntersect(Ray& ray) {
     if (!leftIntervals && !rightIntervals) {
         return std::nullopt; 
     }
+    else if (!rightIntervals) return leftIntervals;
+    else if (!leftIntervals) return rightIntervals;
     else {
         auto merged = mergeIntervalLists(*leftIntervals, *rightIntervals);
         return mergeIntervals(merged);
