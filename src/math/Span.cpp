@@ -12,7 +12,9 @@ Span Span::invalid() {
 
 std::string Span::printSpan() const {
     std::stringstream s;
-    s << std::fixed << std::setprecision(3) << "[" << entry.t << ", " << exit.t << "]";
+    s << std::fixed << std::setprecision(3) << "[" << entry.t << ", " << exit.t << "]\n";
+    s << " Entry Surface Normal: " << entry.surface_normal.x() << " " << entry.surface_normal.y() << " " << entry.surface_normal.z() << '\n';
+    s << " Exit Surface Normal: " << exit.surface_normal.x() << " " << exit.surface_normal.y() << " " << exit.surface_normal.z() << '\n';
     return s.str();
 }
 
