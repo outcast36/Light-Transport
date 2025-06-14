@@ -15,6 +15,24 @@ Scene scene1() {
     return scene_objects;
 }
 
+// Union operation on two spheres
+Scene scene2() {
+    Scene scene_objects;
+    vec3<double> rb_center(0,0.5,-5);
+    Sphere rb(rb_center, 1);
+    std::shared_ptr<Sphere> left_ptr = std::make_shared<Sphere>(rb);
+
+    vec3<double> fb_center(0.75,0.5,-4.5);
+    Sphere fb(fb_center, 1);
+    std::shared_ptr<Sphere> right_ptr = std::make_shared<Sphere>(fb);
+
+    Unions union_object(left_ptr, right_ptr);
+    std::shared_ptr<Unions> union_ptr = std::make_shared<Unions>(union_object);
+
+    scene_objects.add(union_ptr);
+    return scene_objects;
+}
+
 /*
 
 // A single unit height and unit radius cylinder aligned with the y-axis
