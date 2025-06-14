@@ -17,8 +17,14 @@ Compile reference materials to nice looking PDFs using pandoc:
 To run:
 1. ```git clone https://github.com/outcast36/Light-Transport```
 2. cd to ```<path-to-cloned-repo>/Light-Transport/```
-3. ```make```
-4. ```./render <render-out-path>```
+3. ```cmake -S . -B build```
+4. ```cmake --build build```
+5. From ```Light-Transport``` directory run ```./build/src/render <out-img-path>```
+
+To run tests:
+1. Generate build files using ```cmake -S . -B build -DBUILD_TESTING=ON```
+2. ```cmake --build build```
+3. ```ctest --test-dir=build```
    
 # Implemented
 * Support for HDR rendering using PFM image format
