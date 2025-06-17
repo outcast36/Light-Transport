@@ -12,6 +12,7 @@ class Span {
  public:
   Span(const Collision& entry, const Collision& exit);
   static Span invalid(); 
+  static Span initParametersOnly(double entry, double exit);
   std::string printSpan() const;
   Collision getEntry() const; 
   Collision getExit() const; 

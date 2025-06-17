@@ -5,6 +5,13 @@
 Span::Span(const Collision& entry, const Collision& exit)
       : entry(entry), exit(exit) {}
 
+Span Span::initParametersOnly(double entry, double exit) {
+    Span ret = Span::invalid();
+    ret.entry = Collision::parameterOnly(entry);
+    ret.exit = Collision::parameterOnly(exit);
+    return ret;
+}
+
 Span Span::invalid() {
     Collision dummy{vec3<double>(), vec3<double>(), 0.0};
     return Span(dummy, dummy);
@@ -12,9 +19,7 @@ Span Span::invalid() {
 
 std::string Span::printSpan() const {
     std::stringstream s;
-    s << std::fixed << std::setprecision(3) << "[" << entry.t << ", " << exit.t << "]\n";
-    s << " Entry Surface Normal: " << entry.surface_normal.x() << " " << entry.surface_normal.y() << " " << entry.surface_normal.z() << '\n';
-    s << " Exit Surface Normal: " << exit.surface_normal.x() << " " << exit.surface_normal.y() << " " << exit.surface_normal.z() << '\n';
+    s << std::fixed << std::setprecision(3) << "[" << entry.t << ", " << exit.t << "]";
     return s.str();
 }
 
