@@ -9,6 +9,8 @@ find_package(GTest REQUIRED)
 include(GoogleTest)
 
 # Link with gtest_main
-target_sources(unit_tests PRIVATE SpanTest.cpp IntervalTest.cpp)
+target_sources(unit_tests PRIVATE SpanTest.cpp IntervalTest.cpp CSGTest.cpp)
 target_link_libraries(unit_tests GTest::gtest_main)
 gtest_discover_tests(unit_tests) 
+
+#CSGTest.cpp
