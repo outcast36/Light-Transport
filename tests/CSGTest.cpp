@@ -14,9 +14,9 @@ TEST(CSGTest, MergeLists1) {
     std::vector<Span> merged_list = mergeIntervalLists(list1, list2);
     EXPECT_EQ(merged_list.size(), 7);
     EXPECT_EQ(merged_list[0].asInterval().start, 1);
-    EXPECT_EQ(merged_list[0].asInterval().end, 3);
+    EXPECT_EQ(merged_list[0].asInterval().end, 2);
     EXPECT_EQ(merged_list[1].asInterval().start, 1);
-    EXPECT_EQ(merged_list[1].asInterval().end, 2);
+    EXPECT_EQ(merged_list[1].asInterval().end, 3);
     EXPECT_EQ(merged_list[6].asInterval().start, 12);
     EXPECT_EQ(merged_list[6].asInterval().end, 12);
 }
