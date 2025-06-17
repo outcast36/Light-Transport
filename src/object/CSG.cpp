@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <iterator>
 #include "CSG.h"
 
 CSG::CSG(std::shared_ptr<BaseObject> left, std::shared_ptr<BaseObject> right) 
@@ -23,17 +25,13 @@ std::string printIntervalList(std::vector<Span>& items) {
 // intervals, which are sorted by start, but not necessarily pairwise disjoint. 
 // Assume that neither collection A nor collection B are empty
 std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b) {
-    uint8_t i = 0, j = 0;
     std::vector<Span> result;
-    while (i < a.size() && j < b.size()) {
-        Collision left_start = a[i].getEntry();
-        Collision right_start = b[j].getEntry();
-
-        if (closerToOrigin(left_start, right_start)) result.push_back(a[i++]);
-        else result.push_back(b[j++]);
-    }
-    while (i < a.size()) result.push_back(a[i++]);
-    while (j < b.size()) result.push_back(b[j++]);
+    std::merge(a.begin(), a.end(), 
+               b.begin(), b.end(), 
+               std::back_inserter(result), 
+               [](const Span& x, const Span& y) {
+                   return x.getEntry().t < y.getEntry().t;
+               });
     return result;
 }
 
