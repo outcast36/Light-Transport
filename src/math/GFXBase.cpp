@@ -1,5 +1,11 @@
 #include "GFXBase.h"
 
+Collision Collision::parameterOnly(double t) {
+    Collision ret;
+    ret.t = t;
+    return ret;
+}
+
 bool closerToOrigin(const Collision& p1, const Collision& p2) {
     return p1.t < p2.t;
 }

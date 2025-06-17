@@ -8,6 +8,7 @@ struct Collision {
     vec3<double> intersection;
     vec3<double> surface_normal;
     double t;
+    static Collision parameterOnly(double t);
 };
 
 struct Ray {
