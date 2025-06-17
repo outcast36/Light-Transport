@@ -21,6 +21,7 @@ std::string printIntervalList(std::vector<Span>& items) {
 // Assume that both collections A and B are sorted by start and are both 
 // pairwise disjoint. This function merges A and B into a single collection of
 // intervals, which are sorted by start, but not necessarily pairwise disjoint. 
+// Assume that neither collection A nor collection B are empty
 std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b) {
     uint8_t i = 0, j = 0;
     std::vector<Span> result;
@@ -37,6 +38,7 @@ std::vector<Span> mergeIntervalLists(std::vector<Span>& a, std::vector<Span>& b)
 }
 
 // Assume intervals is a collection of intervals which are sorted by start
+// Assume intervals collection is non-empty
 std::vector<Span> mergeIntervals(std::vector<Span>& intervals) {
     u_int8_t i = 0;
     std::vector<Span> result;
