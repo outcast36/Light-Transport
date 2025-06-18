@@ -19,6 +19,8 @@ struct Ray {
 using Ray = struct Ray;
 using Collision = struct Collision;
 
+bool withinEpsilon(double t1, double t2, double epsilon = 1e-8);
+
 // Less than operation between two collisions for a single ray-intersection 
 // query (i.e. the two collisions are along the same ray) return true if the
 // collision p1 has a ray parameter (t) less than that of p2 and false otherwise. 
